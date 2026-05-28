@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guillaume Hervy — Prévisualisation 3D pour artistes plasticiens</title>
+  <meta name="description" content="Prévisualisation 3D pour artistes plasticiens — rendus, schémas techniques et production 3D sous Blender. Basé à Bruxelles, diplômé Beaux-Arts et ERG.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://guillaumehervy.fr/">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Guillaume Hervy — Prévisualisation 3D pour artistes plasticiens">
+  <meta property="og:description" content="Rendus 3D, schémas techniques et production sous Blender pour artistes plasticiens. Basé à Bruxelles.">
+  <meta property="og:url" content="https://guillaumehervy.fr/">
+  <meta property="og:locale" content="fr_BE">
+  <meta property="og:site_name" content="Guillaume Hervy">
+  <meta property="og:image" content="https://guillaumehervy.fr/assets/images/GL_01_RE.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Guillaume Hervy — Prévisualisation 3D">
+  <meta name="twitter:description" content="Rendus 3D, schémas techniques et production sous Blender pour artistes plasticiens.">
+  <meta name="twitter:image" content="https://guillaumehervy.fr/assets/images/GL_01_RE.webp">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Guillaume Hervy",
+    "description": "Prévisualisation 3D pour artistes plasticiens — rendus, schémas techniques et production 3D sous Blender.",
+    "url": "https://guillaumehervy.fr",
+    "image": "https://guillaumehervy.fr/assets/images/GL_01_RE.webp",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Bruxelles",
+      "addressCountry": "BE"
+    },
+    "sameAs": [
+      "https://www.instagram.com/guillaumevhx/",
+      "https://www.youtube.com/@guillaumehervy",
+      "https://art.guillaumehervy.fr"
+    ],
+    "knowsAbout": ["Prévisualisation 3D", "Blender", "Rendus 3D", "Schémas techniques", "Art contemporain"],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Services",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Prévisualisation 3D" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Rendus et schémas techniques" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Production 3D" } }
+      ]
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #fafafa;
+      --gray-100: #f2f2f2;
+      --gray-200: #e0e0e0;
+      --gray-400: #999;
+      --gray-500: #777;
+      --gray-600: #555;
+      --sidebar-w: 260px;
+      --page-max: 1380px;
+      --page-pad: 30px;
+      --font: 'Space Grotesk', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { font-size: 16px; }
+    body {
+      font-family: var(--font);
+      background: var(--white);
+      color: var(--black);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    ::selection { background: var(--black); color: var(--white); }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-thumb { background: var(--gray-400); }
+
+    /* ---- PAGE WRAPPER (centers everything) ---- */
+    .page-wrapper {
+      max-width: var(--page-max);
+      margin: 0 auto;
+      padding: var(--page-pad);
+      display: flex;
+      gap: 30px;
+      min-height: 100vh;
+    }
+
+    /* ---- SIDEBAR ---- */
+    .sidebar {
+      position: sticky;
+      top: var(--page-pad);
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      max-width: var(--sidebar-w);
+      height: calc(100vh - var(--page-pad) * 2);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+    }
+
+    .sidebar__logo {
+      font-family: var(--font);
+      font-weight: 800;
+      font-size: 1.6rem;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+      line-height: 1.15;
+      margin-bottom: 0.35rem;
+    }
+    .sidebar__sub {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+      margin-bottom: 2.5rem;
+    }
+
+    .sidebar__nav { display: flex; flex-direction: column; gap: 0.15rem; flex: 1; }
+    .sidebar__nav a {
+      font-family: var(--font);
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      text-decoration: none;
+      padding: 0.35rem 0;
+      transition: color 0.2s ease;
+      letter-spacing: -0.01em;
+    }
+    .sidebar__nav a:hover {
+      color: var(--black);
+    }
+    .sidebar__nav a.active {
+      color: var(--black);
+      text-decoration: none;
+    }
+
+    .sidebar__socials {
+      display: flex; gap: 1.25rem; margin-top: 1.5rem;
+    }
+    .sidebar__socials a {
+      color: var(--gray-400);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
+    .sidebar__socials a:hover { color: var(--black); }
+
+    .site-footer {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--gray-400);
+      letter-spacing: 0.02em;
+      text-align: center;
+      padding: 3rem 0 2rem;
+    }
+
+    /* ---- MAIN ---- */
+    .main { flex: 1; min-height: 100vh; min-width: 0; }
+
+    /* ---- PAGES ---- */
+    .page { display: none; min-height: 100vh; }
+    .page.active { display: block; }
+
+    /* ---- PORTFOLIO GRID (homepage) ---- */
+    .grid {
+      columns: 2;
+      column-gap: 20px;
+    }
+
+    .grid-item {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--gray-100);
+      margin-bottom: 20px;
+      break-inside: avoid;
+    }
+    .grid-item img {
+      width: 100%;
+      display: block;
+    }
+
+    .grid-item__info {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: clamp(1rem, 2vw, 1.5rem);
+      background: rgba(0,0,0,0.25);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .grid-item:hover .grid-item__info { opacity: 1; }
+    .grid-item__artist {
+      font-family: var(--font);
+      font-size: clamp(0.75rem, 1vw, 0.85rem);
+      font-weight: 400;
+      color: #fff;
+      transform: translateY(8px);
+      opacity: 0;
+      transition: transform 0.4s var(--ease), opacity 0.4s ease;
+      transition-delay: 0.05s;
+    }
+    .grid-item__title {
+      font-family: var(--font);
+      font-size: clamp(1rem, 1.5vw, 1.3rem);
+      font-weight: 700;
+      color: #fff;
+      transform: translateY(8px);
+      opacity: 0;
+      transition: transform 0.4s var(--ease), opacity 0.4s ease;
+      transition-delay: 0.1s;
+    }
+    .grid-item:hover .grid-item__artist,
+    .grid-item:hover .grid-item__title {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ---- PROJECT PAGE ---- */
+    .project-page {
+      padding: 0;
+      max-width: 1000px;
+    }
+
+    .project-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--gray-400);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      transition: color 0.2s ease;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    .project-back:hover { color: var(--black); }
+
+    .project-header { margin-bottom: 2.5rem; }
+    .project-header h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      margin-bottom: 0.35rem;
+    }
+    .project-header__artist {
+      font-size: 1rem;
+      color: var(--gray-500);
+      font-weight: 400;
+      margin-bottom: 0.25rem;
+    }
+    .project-header__meta {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--gray-400);
+      letter-spacing: 0.02em;
+    }
+    .project-header__type {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--gray-500);
+      letter-spacing: 0.02em;
+      margin-top: 0.15rem;
+    }
+
+    .project-hero {
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    .project-hero img {
+      width: 100%;
+      display: block;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+    .project-hero img:hover { opacity: 0.92; }
+
+    .project-thumbs {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 6px;
+      margin-bottom: 3rem;
+    }
+    .project-thumbs img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+    .project-thumbs img:hover { opacity: 0.8; }
+
+    .project-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 4vw, 4rem);
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    .project-body h3 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+    }
+    .project-body p,
+    .project-body li {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+    .project-body ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .project-body li::before {
+      content: '— ';
+      color: var(--gray-400);
+    }
+
+    .project-section { margin-bottom: 2rem; }
+    .project-section:last-child { margin-bottom: 0; }
+
+    .project-tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid var(--gray-200);
+      padding: 0.25rem 0.65rem;
+      margin-right: 0.4rem;
+      margin-bottom: 0.4rem;
+      color: var(--gray-500);
+    }
+
+    /* Project images full width */
+    .project-images {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 3rem;
+    }
+    .project-images img {
+      width: 100%;
+      display: block;
+    }
+
+    /* Other projects */
+    .other-projects {
+      border-top: 1px solid var(--gray-200);
+      padding-top: 2.5rem;
+      margin-top: 3rem;
+    }
+    .other-projects__label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 1.25rem;
+      display: block;
+    }
+    .other-projects__grid {
+      columns: 2;
+      column-gap: 20px;
+    }
+    .other-projects__item {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--gray-100);
+      break-inside: avoid;
+      margin-bottom: 20px;
+    }
+    .other-projects__item img {
+      width: 100%;
+      display: block;
+    }
+    .other-projects__info {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: clamp(1rem, 2vw, 1.5rem);
+      background: rgba(0,0,0,0.25);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .other-projects__item:hover .other-projects__info { opacity: 1; }
+    .other-projects__artist-name {
+      font-family: var(--font);
+      font-size: clamp(0.75rem, 1vw, 0.85rem);
+      font-weight: 400;
+      color: #fff;
+      transform: translateY(8px);
+      opacity: 0;
+      transition: transform 0.4s var(--ease), opacity 0.4s ease;
+      transition-delay: 0.05s;
+    }
+    .other-projects__name {
+      font-family: var(--font);
+      font-size: clamp(1rem, 1.5vw, 1.3rem);
+      font-weight: 700;
+      color: #fff;
+      transform: translateY(8px);
+      opacity: 0;
+      transition: transform 0.4s var(--ease), opacity 0.4s ease;
+      transition-delay: 0.1s;
+    }
+    .other-projects__item:hover .other-projects__artist-name,
+    .other-projects__item:hover .other-projects__name {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Result final section */
+    .project-result {
+      margin-top: 3rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--gray-200);
+    }
+    .project-result__label {
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .project-result__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 6px;
+    }
+    .project-result__grid img {
+      width: 100%;
+      display: block;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+    .project-result__grid img:hover { opacity: 0.85; }
+
+    /* ---- PAGE CONTENT (process, about, faq) ---- */
+    .page-content {
+      max-width: 680px;
+      padding: clamp(3rem, 6vh, 5rem) clamp(2rem, 4vw, 4rem);
+    }
+    .page-content .label {
+      font-family: var(--mono); font-size: 0.65rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gray-400); display: block; margin-bottom: 1.5rem;
+    }
+    .page-content h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 700; letter-spacing: -0.025em;
+      line-height: 1.15; margin-bottom: 2.5rem;
+    }
+    .page-content h3 {
+      font-size: 1.1rem; font-weight: 600;
+      letter-spacing: -0.01em; margin-bottom: 0.4rem;
+    }
+    .page-content p {
+      font-size: 0.95rem; color: var(--gray-600);
+      line-height: 1.7; font-weight: 300;
+    }
+
+    /* Process */
+    .process-steps { display: flex; flex-direction: column; }
+    .process-step {
+      display: grid; grid-template-columns: 50px 1fr; gap: 1.25rem;
+      padding: 1.75rem 0; border-bottom: 1px solid var(--gray-200); align-items: start;
+    }
+    .process-step:first-child { padding-top: 0; }
+    .process-step:last-child { border-bottom: none; }
+    .process-step__num {
+      font-family: var(--font); font-size: 1.5rem;
+      font-weight: 700; color: var(--gray-200); line-height: 1;
+    }
+
+    /* About */
+    .about-img {
+      width: 100%; aspect-ratio: 16/9;
+      object-fit: cover; display: block;
+      margin-bottom: 2.5rem; background: var(--gray-100);
+    }
+    .about-text p { margin-bottom: 1rem; }
+    .about-text a {
+      color: var(--black); text-decoration: none;
+      font-weight: 500; border-bottom: 1px solid var(--gray-400);
+      transition: border-color 0.3s ease;
+    }
+    .about-text a:hover { border-color: var(--black); }
+
+    /* FAQ */
+    .faq-item { border-bottom: 1px solid var(--gray-200); }
+    .faq-item summary {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 0; cursor: pointer; list-style: none;
+      font-size: 0.88rem; font-weight: 500;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary:hover { color: var(--gray-500); }
+    .faq-icon {
+      width: 18px; height: 18px;
+      position: relative; flex-shrink: 0; margin-left: 1rem;
+    }
+    .faq-icon::before, .faq-icon::after {
+      content: ''; position: absolute;
+      background: var(--gray-400);
+      transition: transform 0.3s var(--ease);
+    }
+    .faq-icon::before { width: 10px; height: 1px; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+    .faq-icon::after { width: 1px; height: 10px; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+    .faq-item[open] .faq-icon::after { transform: translate(-50%,-50%) rotate(90deg); }
+    .faq-answer {
+      padding: 0 0 1.1rem; font-size: 0.85rem;
+      color: var(--gray-600); line-height: 1.7;
+      font-weight: 300; max-width: 520px;
+    }
+
+    /* SR-only (h1 accessible) */
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    /* CTA page */
+    .cta-page {
+      display: flex; flex-direction: column;
+      justify-content: center; min-height: 100vh;
+      padding: clamp(3rem, 6vh, 5rem) clamp(2rem, 4vw, 4rem);
+      max-width: 600px;
+    }
+    .cta-page h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 600; letter-spacing: -0.025em;
+      line-height: 1.15; margin-bottom: 1rem;
+    }
+    .cta-page p {
+      font-size: 0.88rem; color: var(--gray-500);
+      font-weight: 300; margin-bottom: 2.5rem;
+    }
+    .cta-btn {
+      display: inline-block; font-family: var(--mono);
+      font-size: 0.6rem; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      text-decoration: none; padding: 0.85rem 2rem;
+      background: var(--black); color: var(--white);
+      transition: all 0.3s ease;
+    }
+    .cta-btn:hover { background: var(--gray-600); }
+
+    /* ---- MOBILE ---- */
+    .mobile-header {
+      display: none;
+      padding: 1.25rem 1.25rem 0.75rem;
+      align-items: center; justify-content: space-between;
+    }
+    .mobile-header__logo {
+      font-family: var(--font); font-weight: 800; font-size: 1.2rem;
+      text-transform: uppercase; letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: var(--black); text-decoration: none;
+    }
+    .burger {
+      background: none; border: none; cursor: pointer;
+      display: flex; flex-direction: column; gap: 4px;
+      align-items: flex-end;
+      width: 26px;
+    }
+    .burger span {
+      display: block; height: 2px; background: var(--black);
+    }
+    .burger span:nth-child(1) { width: 100%; }
+    .burger span:nth-child(2) { width: 70%; }
+    .burger span:nth-child(3) { width: 40%; }
+
+    .mobile-menu {
+      position: fixed; inset: 0;
+      background: var(--white); z-index: 99;
+      flex-direction: column; align-items: center;
+      justify-content: center; padding: 2rem; gap: 1.5rem;
+      text-align: center;
+      display: flex;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .mobile-menu.open { opacity: 1; pointer-events: auto; }
+    .mobile-menu a {
+      font-family: var(--font); font-size: 1.4rem; font-weight: 600;
+      color: var(--black); text-decoration: none;
+      transform: translateY(10px);
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s var(--ease);
+    }
+    .mobile-menu.open a {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .mobile-menu.open a:nth-child(1) { transition-delay: 0.05s; }
+    .mobile-menu.open a:nth-child(2) { transition-delay: 0.1s; }
+    .mobile-menu.open a:nth-child(3) { transition-delay: 0.15s; }
+    .mobile-menu.open a:nth-child(4) { transition-delay: 0.2s; }
+    .mobile-menu.open a:nth-child(5) { transition-delay: 0.25s; }
+
+    @media (max-width: 900px) {
+      .page-wrapper { flex-direction: column; padding: 0; gap: 0; }
+      .sidebar { display: none; }
+      .mobile-header { display: flex; margin-bottom: 1.5rem; }
+      .grid { columns: 1; padding: 0 1.25rem; }
+      .project-page { padding: 0 1.25rem; }
+      .project-body { grid-template-columns: 1fr; }
+      .project-result__grid { grid-template-columns: repeat(2, 1fr); }
+      .other-projects__grid { columns: 1; }
+    }
+
+    @media (hover: none) {
+      .grid-item__info { opacity: 1; }
+      .grid-item__artist, .grid-item__title { transform: translateY(0); opacity: 1; }
+      .other-projects__info { opacity: 1; }
+      .other-projects__artist-name, .other-projects__name { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+
+<body>
+  <h1 class="sr-only">Guillaume Hervy — Prévisualisation 3D pour artistes plasticiens</h1>
+
+  <div class="page-wrapper">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <a href="#" class="sidebar__logo" data-nav="portfolio">Guillaume<br>Hervy</a>
+    <div class="sidebar__sub">Prévisualisation 3D</div>
+    <nav class="sidebar__nav">
+      <a href="#" data-nav="portfolio" class="active">Portfolio</a>
+      <a href="#" data-nav="process">Process</a>
+      <a href="#" data-nav="about">À propos</a>
+      <a href="#" data-nav="faq">FAQ</a>
+      <a href="https://calendly.com/hervyguillaume22/premier-call" target="_blank" rel="noopener">Contact</a>
+      <div class="sidebar__socials">
+      <a href="https://www.instagram.com/guillaumevhx/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://www.youtube.com/@guillaumehervy" target="_blank" rel="noopener" aria-label="YouTube">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.94 2C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg>
+      </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- MOBILE HEADER -->
+  <div class="mobile-header">
+    <a href="#" class="mobile-header__logo" data-nav="portfolio">Guillaume<br>Hervy</a>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="#" data-nav="portfolio" onclick="closeMob()">Portfolio</a>
+    <a href="#" data-nav="process" onclick="closeMob()">Process</a>
+    <a href="#" data-nav="about" onclick="closeMob()">À propos</a>
+    <a href="#" data-nav="faq" onclick="closeMob()">FAQ</a>
+    <a href="https://calendly.com/hervyguillaume22/premier-call" target="_blank" rel="noopener" onclick="closeMob()">Contact</a>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- PAGE: PORTFOLIO -->
+    <div class="page active" id="page-portfolio">
+      <div class="grid">
+        <div class="grid-item" data-project="glande-lacrymale">
+          <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de ses larmes le sol se creuse — Eden Hecht">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Eden Hecht</div>
+            <div class="grid-item__title">Dans le sillage de ses larmes le sol se creuse</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="sans-titre">
+          <img src="assets/images/TornadoText.webp" alt="Sans Titre — mountaincutters">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">mountaincutters</div>
+            <div class="grid-item__title">Sans Titre</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="promis">
+          <img src="assets/images/Eden_Promis_01_RE.webp" alt="Promis — Eden Hecht">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Eden Hecht</div>
+            <div class="grid-item__title">Promis</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="collapse">
+          <img src="assets/images/Eden_Hecht_Contrefort_04_RE.webp" alt="Collapse — Eden Hecht">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Eden Hecht</div>
+            <div class="grid-item__title">Collapse</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: PROJET GLANDE LACRYMALE -->
+    <div class="page" id="page-project-glande-lacrymale">
+      <div class="project-page">
+        <div class="project-images">
+          <img src="assets/images/GL_01_RE.webp" alt="Glande lacrymale — Vue 1" loading="lazy">
+          <img src="assets/images/GL_02_RE.webp" alt="Glande lacrymale — Vue 2" loading="lazy">
+          <img src="assets/images/GL_11_RE.webp" alt="Glande lacrymale — Vue 3" loading="lazy">
+          <img src="assets/images/GL_04_RE.webp" alt="Glande lacrymale — Vue 4" loading="lazy">
+          <img src="assets/images/GL_10_RE.webp" alt="Glande lacrymale — Vue 5" loading="lazy">
+        </div>
+
+        <div class="project-header">
+          <h2>Dans le sillage de ses larmes le sol se creuse</h2>
+          <div class="project-header__artist">Eden Hecht</div>
+          <div class="project-header__meta">2026 — En production</div>
+          <div class="project-header__type">Prévisualisation 3D — Rendus et schémas techniques</div>
+        </div>
+
+        <div class="project-body">
+          <div>
+            <div class="project-section">
+              <h3>Description</h3>
+              <p>Installation composée d'un compte-gouttes en verre reprenant la forme d'une glande lacrymale. Réservoir intérieur contenant l'eau. Différentes versions du rendu explorées : réservoir opaque ou avec un dégradé opaque vers transparent (opaque en bas au niveau du pic).</p>
+            </div>
+            <div class="project-section">
+              <h3>Type</h3>
+              <div>
+                <span class="project-tag">Rendus 3D</span>
+                <span class="project-tag">Schéma</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="project-section">
+              <h3>Enjeux</h3>
+              <ul>
+                <li>Production de la pièce par un souffleur de verre (Arcam Glass) : création de la prévis 3D pour que le souffleur se rende compte de l'effet souhaité</li>
+                <li>Schémas avec dimensions pour la fabrication</li>
+                <li>Méthode d'accrochage : câbles venant se glisser dans le verre</li>
+              </ul>
+            </div>
+            <div class="project-section">
+              <h3>Approche</h3>
+              <p>À partir des croquis d'Eden, réalisation d'une prévisualisation 3D de la pièce pour se rendre compte du système compte-gouttes avec la forme de glande lacrymale et du réservoir intérieur.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="other-projects">
+          <span class="other-projects__label">Autres projets</span>
+          <div class="other-projects__grid">
+            <div class="other-projects__item" data-project="sans-titre">
+              <img src="assets/images/TornadoText.webp" alt="Sans Titre" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">mountaincutters</div>
+                <div class="other-projects__name">Sans Titre</div>
+              </div>
+            </div>
+            <div class="other-projects__item" data-project="promis">
+              <img src="assets/images/Eden_Promis_01_RE.webp" alt="Promis" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Eden Hecht</div>
+                <div class="other-projects__name">Promis</div>
+              </div>
+            </div>
+            <div class="other-projects__item" data-project="collapse">
+              <img src="assets/images/Eden_Hecht_Contrefort_04_RE.webp" alt="Collapse" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Eden Hecht</div>
+                <div class="other-projects__name">Collapse</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: PROJET SANS TITRE -->
+    <div class="page" id="page-project-sans-titre">
+      <div class="project-page">
+        <div class="project-images">
+          <img src="assets/images/TornadoText.webp" alt="Sans Titre" loading="lazy">
+        </div>
+
+        <div class="project-header">
+          <h2>Sans Titre</h2>
+          <div class="project-header__artist">mountaincutters</div>
+          <div class="project-header__meta">Janvier 2026 — "The Sunsets Were Purple and Red and Yellow and on Fire", bibliothèque de Malines</div>
+          <div class="project-header__type">Production 3D</div>
+        </div>
+
+        <div class="project-body" style="grid-template-columns: 1fr;">
+          <div>
+            <div class="project-section">
+              <h3>Description</h3>
+              <p>À partir d'une vidéo météo d'un tourbillon nuageux, intégration d'un poème de 10 mots émergeant un par un de l'épicentre des nuages tournoyants en 3D.</p>
+            </div>
+            <div class="project-section">
+              <h3>Type</h3>
+              <div>
+                <span class="project-tag">Production 3D</span>
+              </div>
+            </div>
+            <div class="project-section">
+              <h3>Enjeux</h3>
+              <p>Production 3D complète — pas de prévisualisation mais une pièce vidéo finalisée intégrant typographie animée dans un environnement nuageux simulé.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="other-projects">
+          <span class="other-projects__label">Autres projets</span>
+          <div class="other-projects__grid">
+            <div class="other-projects__item" data-project="glande-lacrymale">
+              <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de ses larmes le sol se creuse" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Eden Hecht</div>
+                <div class="other-projects__name">Dans le sillage de ses larmes...</div>
+              </div>
+            </div>
+            <div class="other-projects__item" data-project="promis">
+              <img src="assets/images/Eden_Promis_01_RE.webp" alt="Promis" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Eden Hecht</div>
+                <div class="other-projects__name">Promis</div>
+              </div>
+            </div>
+            <div class="other-projects__item" data-project="collapse">
+              <img src="assets/images/Eden_Hecht_Contrefort_04_RE.webp" alt="Collapse" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Eden Hecht</div>
+                <div class="other-projects__name">Collapse</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: PROJET PROMIS -->
+    <div class="page" id="page-project-promis">
+      <div class="project-page">
+        <div class="project-images">
+          <img src="assets/images/Eden_Promis_01_RE.webp" alt="Promis — Vue 1" loading="lazy">
+          <img src="assets/images/Eden_Promis_02_RE.webp" alt="Promis — Vue 2" loading="lazy">
+          <img src="assets/images/Eden_Promis_03_RE.webp" alt="Promis — Vue 3" loading="lazy">
+          <img src="assets/images/Eden_Promis_04_RE.webp" alt="Promis — Vue 4" loading="lazy">
+          <img src="assets/images/Eden_Promis_06_RE.webp" alt="Promis — Vue 5" loading="lazy">
+          <img src="assets/images/Eden_Promis_07_RE.webp" alt="Promis — Vue 6" loading="lazy">
+          <img src="assets/images/Eden_Promis_08_RE.webp" alt="Promis — Vue 7" loading="lazy">
+          <img src="assets/images/Eden_Promis_09_RE.webp" alt="Promis — Vue 8" loading="lazy">
+          <img src="assets/images/Eden_Promis_Schema_01_RE.webp" alt="Promis — Schéma" loading="lazy">
+          <img src="assets/images/EdenHecht_Promis_FINAL.webp" alt="Promis — Résultat final" loading="lazy">
+        </div>
+
+        <div class="project-header">
+          <h2>Promis</h2>
+          <div class="project-header__artist">Eden Hecht</div>
+          <div class="project-header__meta">2025 — Espace Vanderborght, Bruxelles</div>
+          <div class="project-header__type">Prévisualisation 3D — Rendus et schémas techniques</div>
+        </div>
+
+        <div class="project-body">
+          <div>
+            <div class="project-section">
+              <h3>Description</h3>
+              <p>Sculpture en verre reprenant la forme d'un retable religieux. Trois enjeux techniques résolus en 3D avant de toucher au verre.</p>
+            </div>
+            <div class="project-section">
+              <h3>Type</h3>
+              <div>
+                <span class="project-tag">Rendus 3D</span>
+                <span class="project-tag">Schéma technique</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="project-section">
+              <h3>Enjeux</h3>
+              <ul>
+                <li>Système d'accrochage (blocs verre + tiges équerre) : validation des proportions avant commande au verrier</li>
+                <li>Charnière tout-verre (demi-baguettes coulissantes) : test de discrétion et intégration visuelle</li>
+                <li>Gravure à l'acide fluorhydrique ("Promis" au centre) : test typo, taille et positionnement</li>
+              </ul>
+            </div>
+            <div class="project-section">
+              <h3>Problème résolu</h3>
+              <p>Toutes les décisions formelles prises en 3D avant de toucher au verre.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="other-projects">
+          <span class="other-projects__label">Autres projets</span>
+          <div class="other-projects__grid">
+            <div class="other-projects__item" data-project="glande-lacrymale">
+              <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de ses larmes le sol se creuse" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Eden Hecht</div>
+                <div class="other-projects__name">Dans le sillage de ses larmes...</div>
+              </div>
+            </div>
+            <div class="other-projects__item" data-project="sans-titre">
+              <img src="assets/images/TornadoText.webp" alt="Sans Titre" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">mountaincutters</div>
+                <div class="other-projects__name">Sans Titre</div>
+              </div>
+            </div>
+            <div class="other-projects__item" data-project="collapse">
+              <img src="assets/images/Eden_Hecht_Contrefort_04_RE.webp" alt="Collapse" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Eden Hecht</div>
+                <div class="other-projects__name">Collapse</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: PROJET COLLAPSE -->
+    <div class="page" id="page-project-collapse">
+      <div class="project-page">
+        <div class="project-images">
+          <img src="assets/images/Eden_Hecht_Contrefort_04_RE.webp" alt="Collapse — Vue 1" loading="lazy">
+          <img src="assets/images/Eden_Hecht_Contrefort_01_RE.webp" alt="Collapse — Vue 2" loading="lazy">
+          <img src="assets/images/Eden_Hecht_Contrefort_02_RE.webp" alt="Collapse — Vue 3" loading="lazy">
+          <img src="assets/images/Eden_Hecht_Contrefort_03_RE.webp" alt="Collapse — Vue 4" loading="lazy">
+          <img src="assets/images/Eden_Hecht_Contrefort_05_RE.webp" alt="Collapse — Vue 5" loading="lazy">
+          <img src="assets/images/Eden_Hecht_Contrefort_06_RE.webp" alt="Collapse — Vue 6" loading="lazy">
+          <img src="assets/images/Eden_Hecht_Contrefort_07_RE.webp" alt="Collapse — Vue 7" loading="lazy">
+          <img src="assets/images/Eden_Hecht_Contrefort_08_RE.webp" alt="Collapse — Vue 8" loading="lazy">
+          <img src="assets/images/EdenHecht_Contrefort_FINAL_01.webp" alt="Collapse — Résultat final 1" loading="lazy">
+          <img src="assets/images/EdenHecht_Contrefort_FINAL_02.webp" alt="Collapse — Résultat final 2" loading="lazy">
+        </div>
+
+        <div class="project-header">
+          <h2>Collapse</h2>
+          <div class="project-header__artist">Eden Hecht</div>
+          <div class="project-header__meta">2023 — Prix de la Jeune Sculpture, musée en plein air Sart Tilman, Liège</div>
+          <div class="project-header__type">Prévisualisation 3D — Rendus et schémas techniques</div>
+        </div>
+
+        <div class="project-body">
+          <div>
+            <div class="project-section">
+              <h3>Description</h3>
+              <p>Contrefort en bois (300×400×200 cm) conçu pour une installation en espace public dans le parc de Sart Tilman.</p>
+            </div>
+            <div class="project-section">
+              <h3>Type</h3>
+              <div>
+                <span class="project-tag">Rendus 3D</span>
+                <span class="project-tag">Schéma technique</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="project-section">
+              <h3>Enjeux</h3>
+              <p>Créer des plans pour construire les différentes planches en bois composant le contrefort, et visualiser l'accrochage dans l'espace public.</p>
+            </div>
+            <div class="project-section">
+              <h3>Problème résolu</h3>
+              <p>Permettre à l'artiste d'être sûre des dimensions et du travail à effectuer sur le bois avant production et assemblage — optimisation du temps et des coûts — et de se projeter sur le rendu final.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="other-projects">
+          <span class="other-projects__label">Autres projets</span>
+          <div class="other-projects__grid">
+            <div class="other-projects__item" data-project="glande-lacrymale">
+              <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de ses larmes le sol se creuse" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Eden Hecht</div>
+                <div class="other-projects__name">Dans le sillage de ses larmes...</div>
+              </div>
+            </div>
+            <div class="other-projects__item" data-project="sans-titre">
+              <img src="assets/images/TornadoText.webp" alt="Sans Titre" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">mountaincutters</div>
+                <div class="other-projects__name">Sans Titre</div>
+              </div>
+            </div>
+            <div class="other-projects__item" data-project="promis">
+              <img src="assets/images/Eden_Promis_01_RE.webp" alt="Promis" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Eden Hecht</div>
+                <div class="other-projects__name">Promis</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: PROCESS -->
+    <div class="page" id="page-process">
+      <div class="page-content">
+        <span class="label">Process</span>
+        <h2>Comment ça se passe.</h2>
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="process-step__num">01</div>
+            <div>
+              <h3>Appel découverte</h3>
+              <p>20 min pour comprendre ton projet, tes références, tes contraintes.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="process-step__num">02</div>
+            <div>
+              <h3>Brief écrit</h3>
+              <p>Résumé clair de ce qu'on va faire — scope, livrables, planning.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="process-step__num">03</div>
+            <div>
+              <h3>Blocking + validation</h3>
+              <p>Premiers volumes 3D dans Blender. Tu valides les proportions.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="process-step__num">04</div>
+            <div>
+              <h3>Matériaux &amp; rendus</h3>
+              <p>Textures, éclairage, mise en contexte. Itérations jusqu'à validation.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="process-step__num">05</div>
+            <div>
+              <h3>Livraison</h3>
+              <p>Rendus HD, schémas cotés, vidéo — tout est à toi. Fichiers Blender inclus.</p>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top: 2rem; font-size: 0.8rem; color: var(--gray-400); font-weight: 300;">
+          Délai typique : 5 jours à 4 semaines.
+        </p>
+      </div>
+    </div>
+
+    <!-- PAGE: ABOUT -->
+    <div class="page" id="page-about">
+      <div class="page-content">
+        <span class="label">À propos</span>
+        <h2>Guillaume Hervy.</h2>
+        <div class="about-text">
+          <p>Diplômé des Beaux-Arts de Lorient et d'un Master en Cinéma d'Animation / Narration Spéculative à l'ERG de Bruxelles.</p>
+          <p>Mon parcours en école d'art m'a donné une sensibilité qui nourrit chaque projet. Je connais les jurys, les dossiers de candidature, les contraintes de budget.</p>
+          <p>Quand je modélise ton projet, je ne fais pas juste de la 3D — je traduis une intention artistique en images qui la servent.</p>
+          <p style="margin-top: 1.5rem;">
+            <a href="https://art.guillaumehervy.fr" target="_blank" rel="noopener">Travail artistique &#8599;</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: FAQ -->
+    <div class="page" id="page-faq">
+      <div class="page-content">
+        <span class="label">FAQ</span>
+        <h2>Questions fréquentes.</h2>
+        <details class="faq-item">
+          <summary>Combien ça coûte ? <span class="faq-icon"></span></summary>
+          <div class="faq-answer">Ça dépend de la complexité. Devis clair après le brief.</div>
+        </details>
+        <details class="faq-item">
+          <summary>C'est quoi le délai ? <span class="faq-icon"></span></summary>
+          <div class="faq-answer">Entre 5 jours et 4 semaines. Planning calé dès le brief.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Juste des rendus ou dossier complet ? <span class="faq-icon"></span></summary>
+          <div class="faq-answer">Les deux. Rendus seuls, schémas cotés, dossier complet avec vidéo — on adapte.</div>
+        </details>
+        <details class="faq-item">
+          <summary>J'ai juste un croquis, ça suffit ? <span class="faq-icon"></span></summary>
+          <div class="faq-answer">Oui. On part de ce que tu as. Le brief sert à compléter.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Tu utilises quel logiciel ? <span class="faq-icon"></span></summary>
+          <div class="faq-answer">Blender — open-source et gratuit. Tu peux modifier les fichiers livrés sans licence.</div>
+        </details>
+      </div>
+    </div>
+
+    <footer class="site-footer">Guillaume Hervy &copy; 2026</footer>
+
+  </main>
+
+  </div><!-- /page-wrapper -->
+
+  <script>
+    // ---- NAVIGATION SPA ----
+    const pages = document.querySelectorAll('.page');
+    const navLinks = document.querySelectorAll('[data-nav]');
+
+    function navigate(target) {
+      pages.forEach(p => p.classList.remove('active'));
+      const page = document.getElementById('page-' + target);
+      if (page) page.classList.add('active');
+
+      // Update sidebar active state (only for main nav pages)
+      const mainPages = ['portfolio','process','about','faq'];
+      document.querySelectorAll('.sidebar__nav a').forEach(a => {
+        a.classList.toggle('active', a.dataset.nav === target ||
+          (target.startsWith('project-') && a.dataset.nav === 'portfolio'));
+      });
+
+      window.scrollTo(0, 0);
+    }
+
+    navLinks.forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        navigate(a.dataset.nav);
+      });
+    });
+
+    // Project grid items + other projects -> project pages
+    document.querySelectorAll('[data-project]').forEach(item => {
+      item.addEventListener('click', () => {
+        navigate('project-' + item.dataset.project);
+      });
+    });
+
+    // ---- MOBILE MENU ----
+    const burger = document.getElementById('burger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    burger.addEventListener('click', () => {
+      burger.classList.toggle('active');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+    function closeMob() {
+      burger.classList.remove('active');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  </script>
+
+</body>
+</html>
