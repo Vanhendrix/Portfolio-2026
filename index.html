@@ -758,9 +758,7 @@
     <div class="sidebar__sub">Artiste 3D</div>
     <nav class="sidebar__nav">
       <a href="#" data-nav="portfolio" class="active">Portfolio</a>
-      <a href="#" data-nav="process">Process</a>
       <a href="#" data-nav="about">À propos</a>
-      <a href="#" data-nav="faq">FAQ</a>
       <a href="https://calendly.com/hervyguillaume22/premier-call" target="_blank" rel="noopener">Contact</a>
       <div class="sidebar__socials">
       <a href="https://www.instagram.com/guillaumevhx/" target="_blank" rel="noopener" aria-label="Instagram">
@@ -780,9 +778,7 @@
   </div>
   <nav class="mobile-menu" id="mobileMenu">
     <a href="#" data-nav="portfolio" onclick="closeMob()">Portfolio</a>
-    <a href="#" data-nav="process" onclick="closeMob()">Process</a>
     <a href="#" data-nav="about" onclick="closeMob()">À propos</a>
-    <a href="#" data-nav="faq" onclick="closeMob()">FAQ</a>
     <a href="https://calendly.com/hervyguillaume22/premier-call" target="_blank" rel="noopener" onclick="closeMob()">Contact</a>
   </nav>
 
@@ -2584,53 +2580,6 @@
     </div>
 
     <!-- PAGE: PROCESS -->
-    <div class="page" id="page-process">
-      <div class="page-content">
-        <span class="label">Process</span>
-        <h2>Comment ça se passe.</h2>
-        <div class="process-steps">
-          <div class="process-step">
-            <div class="process-step__num">01</div>
-            <div>
-              <h3>Appel découverte</h3>
-              <p>20 min pour comprendre ton projet, tes références, tes contraintes.</p>
-            </div>
-          </div>
-          <div class="process-step">
-            <div class="process-step__num">02</div>
-            <div>
-              <h3>Brief écrit</h3>
-              <p>Résumé clair de ce qu'on va faire — scope, livrables, planning.</p>
-            </div>
-          </div>
-          <div class="process-step">
-            <div class="process-step__num">03</div>
-            <div>
-              <h3>Blocking + validation</h3>
-              <p>Premiers volumes 3D dans Blender. Tu valides les proportions.</p>
-            </div>
-          </div>
-          <div class="process-step">
-            <div class="process-step__num">04</div>
-            <div>
-              <h3>Matériaux &amp; rendus</h3>
-              <p>Textures, éclairage, mise en contexte. Itérations jusqu'à validation.</p>
-            </div>
-          </div>
-          <div class="process-step">
-            <div class="process-step__num">05</div>
-            <div>
-              <h3>Livraison</h3>
-              <p>Rendus HD, schémas cotés, vidéo — tout est à toi. Fichiers Blender inclus.</p>
-            </div>
-          </div>
-        </div>
-        <p style="margin-top: 2rem; font-size: 0.8rem; color: var(--gray-400); font-weight: 300;">
-          Délai typique : 5 jours à 4 semaines.
-        </p>
-      </div>
-    </div>
-
     <!-- PAGE: ABOUT -->
     <div class="page" id="page-about">
       <div class="page-content">
@@ -2644,34 +2593,6 @@
             <a href="https://art.guillaumehervy.fr" target="_blank" rel="noopener">Travail artistique &#8599;</a>
           </p>
         </div>
-      </div>
-    </div>
-
-    <!-- PAGE: FAQ -->
-    <div class="page" id="page-faq">
-      <div class="page-content">
-        <span class="label">FAQ</span>
-        <h2>Questions fréquentes.</h2>
-        <details class="faq-item">
-          <summary>Combien ça coûte ? <span class="faq-icon"></span></summary>
-          <div class="faq-answer">Ça dépend de la complexité. Devis clair après le brief.</div>
-        </details>
-        <details class="faq-item">
-          <summary>C'est quoi le délai ? <span class="faq-icon"></span></summary>
-          <div class="faq-answer">Entre 5 jours et 4 semaines. Planning calé dès le brief.</div>
-        </details>
-        <details class="faq-item">
-          <summary>Juste des rendus ou dossier complet ? <span class="faq-icon"></span></summary>
-          <div class="faq-answer">Les deux. Rendus seuls, schémas cotés, dossier complet avec vidéo — on adapte.</div>
-        </details>
-        <details class="faq-item">
-          <summary>J'ai juste un croquis, ça suffit ? <span class="faq-icon"></span></summary>
-          <div class="faq-answer">Oui. On part de ce que tu as. Le brief sert à compléter.</div>
-        </details>
-        <details class="faq-item">
-          <summary>Tu utilises quel logiciel ? <span class="faq-icon"></span></summary>
-          <div class="faq-answer">Blender — open-source et gratuit. Tu peux modifier les fichiers livrés sans licence.</div>
-        </details>
       </div>
     </div>
 
@@ -2733,6 +2654,7 @@
     const navLinks = document.querySelectorAll('[data-nav]');
 
     function navigate(target) {
+      document.querySelectorAll('.page.active .project-video iframe').forEach(iframe => iframe.remove());
       pages.forEach(p => p.classList.remove('active'));
       const page = document.getElementById('page-' + target);
       if (page) page.classList.add('active');
