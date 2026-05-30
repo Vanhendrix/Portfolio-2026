@@ -185,8 +185,7 @@
 
     /* ---- PORTFOLIO GRID (homepage) ---- */
     .grid {
-      columns: 2;
-      column-gap: 20px;
+      position: relative;
     }
 
     .grid-item {
@@ -194,8 +193,6 @@
       overflow: hidden;
       cursor: pointer;
       background: var(--gray-100);
-      margin-bottom: 20px;
-      break-inside: avoid;
     }
     .grid-item img {
       width: 100%;
@@ -400,16 +397,16 @@
       display: block;
     }
     .other-projects__grid {
-      columns: 2;
-      column-gap: 20px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      align-items: start;
     }
     .other-projects__item {
       position: relative;
       overflow: hidden;
       cursor: pointer;
       background: var(--gray-100);
-      break-inside: avoid;
-      margin-bottom: 20px;
     }
     .other-projects__item img {
       width: 100%;
@@ -562,6 +559,37 @@
       font-weight: 300; max-width: 520px;
     }
 
+    /* ---- FILTER BAR ---- */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+      gap: 0;
+    }
+    .filter-btn {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray-400);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.4rem 0;
+      margin-right: 2rem;
+      transition: color 0.2s ease;
+    }
+    .filter-btn:last-child { margin-right: 0; }
+    .filter-btn:hover { color: var(--black); }
+    .filter-btn.active { color: var(--black); }
+
+    .img-placeholder-grid {
+      width: 100%;
+      background: var(--gray-200);
+      display: block;
+    }
+
     /* SR-only (h1 accessible) */
     .sr-only {
       position: absolute; width: 1px; height: 1px;
@@ -653,7 +681,7 @@
       .page-wrapper { flex-direction: column; padding: 0; gap: 0; }
       .sidebar { display: none; }
       .mobile-header { display: flex; margin-bottom: 1.5rem; }
-      .grid { columns: 1; padding: 0 1.25rem; }
+      .grid { display: block; padding: 0 1.25rem; }
       .project-page { padding: 0 1.25rem; }
       .project-body { grid-template-columns: 1fr; }
       .project-result__grid { grid-template-columns: repeat(2, 1fr); }
@@ -666,6 +694,22 @@
       .other-projects__info { opacity: 1; }
       .other-projects__artist-name, .other-projects__name { transform: translateY(0); opacity: 1; }
     }
+
+    /* Project video embed */
+    .project-video {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      margin-bottom: 3rem;
+      background: var(--black);
+    }
+    .project-video iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
   </style>
 </head>
 
@@ -677,7 +721,7 @@
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <a href="#" class="sidebar__logo" data-nav="portfolio">Guillaume<br>Hervy</a>
-    <div class="sidebar__sub">Prévisualisation 3D</div>
+    <div class="sidebar__sub">Artiste 3D</div>
     <nav class="sidebar__nav">
       <a href="#" data-nav="portfolio" class="active">Portfolio</a>
       <a href="#" data-nav="process">Process</a>
@@ -713,33 +757,272 @@
 
     <!-- PAGE: PORTFOLIO -->
     <div class="page active" id="page-portfolio">
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">Tout</button>
+        <button class="filter-btn" data-filter="client">Projets clients</button>
+        <button class="filter-btn" data-filter="perso">Projets perso</button>
+      </div>
       <div class="grid">
-        <div class="grid-item" data-project="glande-lacrymale">
+        <!-- Projets clients — du plus récent au plus ancien -->
+        <div class="grid-item" data-project="glande-lacrymale" data-category="client">
           <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de ses larmes le sol se creuse — Eden Hecht">
           <div class="grid-item__info">
             <div class="grid-item__artist">Eden Hecht</div>
             <div class="grid-item__title">Dans le sillage de ses larmes le sol se creuse</div>
           </div>
         </div>
-        <div class="grid-item" data-project="sans-titre">
+        <div class="grid-item" data-project="sans-titre" data-category="client">
           <img src="assets/images/TornadoText.webp" alt="Sans Titre — mountaincutters">
           <div class="grid-item__info">
             <div class="grid-item__artist">mountaincutters</div>
             <div class="grid-item__title">Sans Titre</div>
           </div>
         </div>
-        <div class="grid-item" data-project="promis">
+        <div class="grid-item" data-project="promis" data-category="client">
           <img src="assets/images/Eden_Promis_01_RE.webp" alt="Promis — Eden Hecht">
           <div class="grid-item__info">
             <div class="grid-item__artist">Eden Hecht</div>
             <div class="grid-item__title">Promis</div>
           </div>
         </div>
-        <div class="grid-item" data-project="collapse">
+        <div class="grid-item" data-project="collapse" data-category="client">
           <img src="assets/images/Eden_Hecht_Contrefort_04_RE.webp" alt="Collapse — Eden Hecht">
           <div class="grid-item__info">
             <div class="grid-item__artist">Eden Hecht</div>
             <div class="grid-item__title">Collapse</div>
+          </div>
+        </div>
+        <!-- Projets perso — ordre art.guillaumehervy.fr -->
+        <div class="grid-item" data-project="simulation" data-category="perso">
+          <img src="assets/images/art/simulation.webp" alt="Simulation — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">Simulation</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="narcomotel" data-category="perso">
+          <img src="assets/images/art/uchronynarcomotel.webp" alt="Narcolepsy Motel – Uchrony — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">Narcolepsy Motel – Uchrony</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="amsterdamwalk" data-category="perso">
+          <img src="assets/images/art/amsterdamwalk.webp" alt="Amsterdam Walk — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">Amsterdam Walk</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="aberdeenwalk" data-category="perso">
+          <img src="assets/images/art/aberdeenwalk.webp" alt="Aberdeen Walk — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">Aberdeen Walk</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="mcrrcmmaps" data-category="perso">
+          <img src="assets/images/art/mcrrcmmaps.webp" alt="MCRRCM+ Maps — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">MCRRCM+ Maps</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="observateur" data-category="perso">
+          <img src="assets/images/art/observateurtrailer.webp" alt="Observateur — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">Observateur</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="naissance02" data-category="perso">
+          <img src="assets/images/art/naissance02.webp" alt="Naissance 02 — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">Naissance 02</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="naissance" data-category="perso">
+          <img src="assets/images/art/naissance01.webp" alt="Naissance 01 — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">Naissance 01</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="showreel2022" data-category="perso">
+          <img src="assets/images/art/showreel2022.webp" alt="Showreel 2022 — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">Showreel 2022</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="couperin" data-category="perso">
+          <img src="assets/images/art/couperin.webp" alt="Couperin — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">Couperin</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="syriaruins" data-category="perso">
+          <img src="assets/images/art/mcrrcmsyriaruins.webp" alt="MCRRCM+ SyriaRuins — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">MCRRCM+ SyriaRuins</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="reves" data-category="perso">
+          <img src="assets/images/art/mcrrcmreves.webp" alt="MCRRCM+ Rêves — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">MCRRCM+ Rêves</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="uchroniepc" data-category="perso">
+          <img src="assets/images/art/mcrrcmuchroniepc.webp" alt="MCRRCM+ Uchronie PC — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">MCRRCM+ Uchronie PC</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="cyberpunkpc" data-category="perso">
+          <img src="assets/images/art/mcrrcmcyberpunkpc.webp" alt="MCRRCM+ Cyberpunk PC — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">MCRRCM+ Cyberpunk PC</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="cyberpunk" data-category="perso">
+          <img src="assets/images/art/mcrrcmcyberpunk.webp" alt="MCRRCM+ Cyberpunk — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">MCRRCM+ Cyberpunk</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="uchronieglitched" data-category="perso">
+          <img src="assets/images/art/mcrrcmuchronieglitched.webp" alt="MCRRCM+ Uchronie Glitched — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">MCRRCM+ Uchronie Glitched</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="controlpanel" data-category="perso">
+          <img src="assets/images/art/mcrrcmcontrolpanel.webp" alt="MCRRCM+ Control Panel — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">MCRRCM+ Control Panel</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="petriglitched" data-category="perso">
+          <img src="assets/images/art/petriglitched.webp" alt="Petri Glitched — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">Petri Glitched</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="uchronie" data-category="perso">
+          <img src="assets/images/art/mcrrcmuchronie.webp" alt="MCRRCM+ Uchronie — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">MCRRCM+ Uchronie</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="micro03" data-category="perso">
+          <img src="assets/images/art/mcrrcmmicro03.webp" alt="MCRRCM+ Micro 03 — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">MCRRCM+ Micro 03</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="basement" data-category="perso">
+          <img src="assets/images/art/mcrrcmbasement.webp" alt="MCRRCM+ Basement — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">MCRRCM+ Basement</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="rotten" data-category="perso">
+          <img src="assets/images/art/mcrrcmrotten.webp" alt="MCRRCM+ Rotten — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">MCRRCM+ Rotten</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="micro02" data-category="perso">
+          <img src="assets/images/art/mcrrcmmicro02.webp" alt="MCRRCM+ Micro 02 — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">MCRRCM+ Micro 02</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="micro01" data-category="perso">
+          <img src="assets/images/art/mcrrcmmicro01.webp" alt="MCRRCM+ Micro 01 — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">MCRRCM+ Micro 01</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="videogame" data-category="perso">
+          <img src="assets/images/art/mcrrcmvideogame.webp" alt="MCRRCM+ Video Game — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">MCRRCM+ Video Game</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="dystopie" data-category="perso">
+          <img src="assets/images/art/mcrrcmdystopie.webp" alt="MCRRCM+ Dystopie — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">MCRRCM+ Dystopie</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="petri02" data-category="perso">
+          <img src="assets/images/art/petri02.webp" alt="Pétri 02 — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">Pétri 02</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="petri01" data-category="perso">
+          <img src="assets/images/art/petri01.webp" alt="Petri 01 — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">Petri 01</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="utopie" data-category="perso">
+          <img src="assets/images/art/mcrrcmutopie.webp" alt="MCRRCM+ Utopie — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">MCRRCM+ Utopie</div>
+          </div>
+        </div>
+        <!-- Projets absents de art.guillaumehervy.fr — en fin de liste -->
+        <div class="grid-item" data-project="showreel2021" data-category="perso">
+          <img src="assets/images/art/showreel2021.webp" alt="Showreel 2021 — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">Showreel 2021</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="entropie" data-category="perso">
+          <img src="assets/images/art/entropie.webp" alt="Entropie — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">Entropie</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="troudever" data-category="perso">
+          <img src="assets/images/art/troudever.webp" alt="Trou de ver — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">Trou de ver</div>
+          </div>
+        </div>
+        <div class="grid-item" data-project="vaisseau360" data-category="perso">
+          <img src="assets/images/art/vaisseau360.webp" alt="Vaisseau 360 — Guillaume Hervy">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Guillaume Hervy</div>
+            <div class="grid-item__title">Vaisseau 360</div>
           </div>
         </div>
       </div>
@@ -1044,6 +1327,1199 @@
       </div>
     </div>
 
+    <!-- PAGE: PROJET NAISSANCE -->
+    <div class="page" id="page-project-naissance">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/baVYoAVGAPs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>Naissance 01</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Août 2022</div>
+          <div class="project-header__type">Point Cloud 3D — Performance VJ</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section">
+              <h3>Description</h3>
+              <p>Expérimentation VJ inspirée du jeu vidéo NaissanceE de Limasse Five. Récupération des point-clouds issus des vidéos MCRRCM+, manipulation en live via TouchDesigner. Exploration performative et improvisée de ces données en temps réel.</p>
+            </div>
+            <div class="project-section">
+              <h3>Type</h3>
+              <div>
+                <span class="project-tag">Point Cloud</span>
+                <span class="project-tag">Performance VJ</span>
+                <span class="project-tag">TouchDesigner</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="project-section">
+              <h3>Outils</h3>
+              <ul>
+                <li>TouchDesigner — manipulation live</li>
+                <li>Point-clouds MCRRCM+</li>
+                <li>Performance temps réel</li>
+              </ul>
+            </div>
+            <div class="project-section">
+              <h3>Médium</h3>
+              <p>Performance VJ live — 3:57</p>
+            </div>
+          </div>
+        </div>
+        <div class="other-projects">
+          <span class="other-projects__label">Autres projets</span>
+          <div class="other-projects__grid">
+            <div class="other-projects__item" data-project="uchronie">
+              <img src="assets/images/art/mcrrcmuchronie.webp" alt="MCRRCM+ Uchronie" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Guillaume Hervy</div>
+                <div class="other-projects__name">MCRRCM+ Uchronie</div>
+              </div>
+            </div>
+            <div class="other-projects__item" data-project="glande-lacrymale">
+              <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de ses larmes le sol se creuse" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Eden Hecht</div>
+                <div class="other-projects__name">Dans le sillage de ses larmes...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: PROJET UCHRONIE -->
+    <div class="page" id="page-project-uchronie">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/5S4bBGf9Z3A" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>MCRRCM+ Uchronie</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Décembre 2021</div>
+          <div class="project-header__type">3D — Vidéo</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section">
+              <h3>Description</h3>
+              <p>Déambulation dans un monde fictif d'un autre espace-temps. Exploration de l'environnement de l'École des Beaux-Arts de Lorient transformé en paysage désolé. La notion de ruine et de vestige est présente — les fragments de matière sont suspendus dans le vide, comme si le temps s'était arrêté.</p>
+            </div>
+            <div class="project-section">
+              <h3>Type</h3>
+              <div>
+                <span class="project-tag">3D Video</span>
+                <span class="project-tag">Photogrammétrie</span>
+                <span class="project-tag">Blender</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="project-section">
+              <h3>Process</h3>
+              <p>Filmage direct de l'environnement réel, reconstruction photogrammétrique en version virtuelle. Aberrations chromatiques obtenues par modification du code brut du fichier vidéo.</p>
+            </div>
+            <div class="project-section">
+              <h3>Outils</h3>
+              <ul>
+                <li>Photogrammétrie</li>
+                <li>Blender — modélisation + rendu</li>
+                <li>Vidéo 1080p</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="other-projects">
+          <span class="other-projects__label">Autres projets</span>
+          <div class="other-projects__grid">
+            <div class="other-projects__item" data-project="naissance">
+              <img src="assets/images/art/naissance01.webp" alt="Naissance" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Guillaume Hervy</div>
+                <div class="other-projects__name">Naissance</div>
+              </div>
+            </div>
+            <div class="other-projects__item" data-project="sans-titre">
+              <img src="assets/images/TornadoText.webp" alt="Sans Titre" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">mountaincutters</div>
+                <div class="other-projects__name">Sans Titre</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: PROJET L'OBSERVATEUR -->
+    <div class="page" id="page-project-observateur">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/PsBsujWzGWY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>Observateur</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Octobre 2022</div>
+          <div class="project-header__type">Jeu vidéo — Installation interactive</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section">
+              <h3>Description</h3>
+              <p>Version jouable de la série MCRRCM+. L'observateur devient acteur : il peut se balader librement dans ces mondes désolés et les explorer de manière interactive. Cette installation immersive transforme les vidéos en environnements navigables où le spectateur devient participant.</p>
+            </div>
+            <div class="project-section">
+              <h3>Type</h3>
+              <div>
+                <span class="project-tag">Jeu vidéo</span>
+                <span class="project-tag">Installation</span>
+                <span class="project-tag">Interactif</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="project-section">
+              <h3>Process</h3>
+              <p>Intégration des modèles 3D et assets MCRRCM+ dans Unreal Engine. Création d'une navigation libre dans les mondes fictifs. Conception des mécaniques d'exploration et d'interaction.</p>
+            </div>
+            <div class="project-section">
+              <h3>Outils</h3>
+              <ul>
+                <li>Unreal Engine</li>
+                <li>Blender — assets 3D</li>
+                <li>MCRRCM+ assets</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="other-projects">
+          <span class="other-projects__label">Autres projets</span>
+          <div class="other-projects__grid">
+            <div class="other-projects__item" data-project="naissance">
+              <img src="assets/images/art/naissance01.webp" alt="Naissance" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Guillaume Hervy</div>
+                <div class="other-projects__name">Naissance</div>
+              </div>
+            </div>
+            <div class="other-projects__item" data-project="collapse">
+              <img src="assets/images/Eden_Hecht_Contrefort_04_RE.webp" alt="Collapse" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Eden Hecht</div>
+                <div class="other-projects__name">Collapse</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: PROJET AMSTERDAM WALK -->
+    <div class="page" id="page-project-amsterdamwalk">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/cVg_grKauUg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>Amsterdam Walk</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Octobre 2023</div>
+          <div class="project-header__type">3D Point Cloud — Vidéo</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section">
+              <h3>Description</h3>
+              <p>Déambulation dans les rues d'Amsterdam reconstituée en nuage de points 3D. L'espace urbain se dissout en données pures — les formes émergent et disparaissent selon la densité du scan.</p>
+            </div>
+            <div class="project-section">
+              <h3>Type</h3>
+              <div>
+                <span class="project-tag">Point Cloud</span>
+                <span class="project-tag">Photogrammétrie</span>
+                <span class="project-tag">Vidéo</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="project-section">
+              <h3>Outils</h3>
+              <ul>
+                <li>Scan photogrammétrique</li>
+                <li>Blender — nuages de points</li>
+                <li>Post-production vidéo</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="other-projects">
+          <span class="other-projects__label">Autres projets</span>
+          <div class="other-projects__grid">
+            <div class="other-projects__item" data-project="naissance">
+              <img src="assets/images/art/naissance01.webp" alt="Naissance" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Guillaume Hervy</div>
+                <div class="other-projects__name">Naissance</div>
+              </div>
+            </div>
+            <div class="other-projects__item" data-project="uchronie">
+              <img src="assets/images/art/mcrrcmuchronie.webp" alt="MCRRCM+ Uchronie" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Guillaume Hervy</div>
+                <div class="other-projects__name">MCRRCM+ Uchronie</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: PROJET NARCOLEPSY MOTEL -->
+    <div class="page" id="page-project-narcomotel">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/G_3XCNzPveg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>Narcolepsy Motel – Uchrony</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Mars 2025 — Narcolepsy Motel, KASK (Académie Royale des Beaux-Arts), Bruxelles</div>
+          <div class="project-header__type">Vidéo d'exposition</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section">
+              <h3>Description</h3>
+              <p>Pièce vidéo produite pour l'exposition collective Narcolepsy Motel. Dérivation de la série MCRRCM+ Uchronie — une uchronie spatiale présentée en contexte d'exposition.</p>
+            </div>
+            <div class="project-section">
+              <h3>Type</h3>
+              <div>
+                <span class="project-tag">Vidéo</span>
+                <span class="project-tag">Exposition</span>
+                <span class="project-tag">3D</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="project-section">
+              <h3>Outils</h3>
+              <ul>
+                <li>Blender — modélisation + rendu</li>
+                <li>Photogrammétrie</li>
+                <li>Montage vidéo</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="other-projects">
+          <span class="other-projects__label">Autres projets</span>
+          <div class="other-projects__grid">
+            <div class="other-projects__item" data-project="uchronie">
+              <img src="assets/images/art/mcrrcmuchronie.webp" alt="MCRRCM+ Uchronie" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Guillaume Hervy</div>
+                <div class="other-projects__name">MCRRCM+ Uchronie</div>
+              </div>
+            </div>
+            <div class="other-projects__item" data-project="glande-lacrymale">
+              <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de ses larmes" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Eden Hecht</div>
+                <div class="other-projects__name">Dans le sillage de ses larmes...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: PROJET MCRRCM+ RÊVES -->
+    <div class="page" id="page-project-reves">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/zbKXpE9_iDw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>MCRRCM+ Rêves</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Mai 2022</div>
+          <div class="project-header__type">3D — Vidéo</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section">
+              <h3>Description</h3>
+              <p>Épisode de la série MCRRCM+ — exploration d'un espace onirique modélisé en 3D. Les formes dérivantes et la lumière diffuse construisent un monde entre état de veille et sommeil.</p>
+            </div>
+            <div class="project-section">
+              <h3>Type</h3>
+              <div>
+                <span class="project-tag">3D Video</span>
+                <span class="project-tag">Blender</span>
+                <span class="project-tag">MCRRCM+</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="project-section">
+              <h3>Série</h3>
+              <p>Épisode de la série MCRRCM+ — cycle de vidéos explorant des environnements 3D fictifs post-apocalyptiques ou oniriques.</p>
+            </div>
+            <div class="project-section">
+              <h3>Outils</h3>
+              <ul>
+                <li>Blender — modélisation + rendu</li>
+                <li>Photogrammétrie</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="other-projects">
+          <span class="other-projects__label">Autres projets</span>
+          <div class="other-projects__grid">
+            <div class="other-projects__item" data-project="uchronie">
+              <img src="assets/images/art/mcrrcmuchronie.webp" alt="MCRRCM+ Uchronie" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Guillaume Hervy</div>
+                <div class="other-projects__name">MCRRCM+ Uchronie</div>
+              </div>
+            </div>
+            <div class="other-projects__item" data-project="amsterdamwalk">
+              <img src="assets/images/art/amsterdamwalk.webp" alt="Amsterdam Walk" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Guillaume Hervy</div>
+                <div class="other-projects__name">Amsterdam Walk</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: PROJET UCHRONIE GLITCHED -->
+    <div class="page" id="page-project-uchronieglitched">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/oVgMpI8R_Bs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>MCRRCM+ Uchronie Glitched</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Janvier 2022</div>
+          <div class="project-header__type">Expérimental — Datamosh</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section">
+              <h3>Description</h3>
+              <p>Version glitchée de MCRRCM+ Uchronie. Corruption volontaire des données vidéo par datamoshing — l'image se désintègre, les pixels dérivent, la temporalité se fragmente.</p>
+            </div>
+            <div class="project-section">
+              <h3>Type</h3>
+              <div>
+                <span class="project-tag">Datamosh</span>
+                <span class="project-tag">Expérimental</span>
+                <span class="project-tag">Glitch Art</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="project-section">
+              <h3>Process</h3>
+              <p>Modification du code binaire brut du fichier vidéo pour créer des aberrations chromatiques et temporelles. Destruction contrôlée de la structure de compression vidéo.</p>
+            </div>
+            <div class="project-section">
+              <h3>Outils</h3>
+              <ul>
+                <li>Datamoshing — corruption binaire</li>
+                <li>Source : MCRRCM+ Uchronie</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="other-projects">
+          <span class="other-projects__label">Autres projets</span>
+          <div class="other-projects__grid">
+            <div class="other-projects__item" data-project="videogame">
+              <img src="assets/images/art/mcrrcmvideogame.webp" alt="MCRRCM+ Video Game" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Guillaume Hervy</div>
+                <div class="other-projects__name">MCRRCM+ Video Game</div>
+              </div>
+            </div>
+            <div class="other-projects__item" data-project="observateur">
+              <img src="assets/images/art/observateurtrailer.webp" alt="Observateur" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Guillaume Hervy</div>
+                <div class="other-projects__name">Observateur</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: PROJET MCRRCM+ VIDEO GAME -->
+    <div class="page" id="page-project-videogame">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/EmTEqjxQjfY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>MCRRCM+ Video Game</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Mai 2021</div>
+          <div class="project-header__type">Jeu vidéo — Prototype</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section">
+              <h3>Description</h3>
+              <p>Prototype de jeu vidéo basé sur l'univers MCRRCM+. Transposition des environnements vidéo en espaces navigables — première expérimentation interactive dans les mondes fictifs de la série.</p>
+            </div>
+            <div class="project-section">
+              <h3>Type</h3>
+              <div>
+                <span class="project-tag">Jeu vidéo</span>
+                <span class="project-tag">Prototype</span>
+                <span class="project-tag">Interactif</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="project-section">
+              <h3>Série</h3>
+              <p>Prototype précédant Observateur — première tentative de transformer les vidéos MCRRCM+ en expérience jouable.</p>
+            </div>
+            <div class="project-section">
+              <h3>Outils</h3>
+              <ul>
+                <li>Unreal Engine — prototype</li>
+                <li>Assets MCRRCM+</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="other-projects">
+          <span class="other-projects__label">Autres projets</span>
+          <div class="other-projects__grid">
+            <div class="other-projects__item" data-project="observateur">
+              <img src="assets/images/art/observateurtrailer.webp" alt="Observateur" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Guillaume Hervy</div>
+                <div class="other-projects__name">Observateur</div>
+              </div>
+            </div>
+            <div class="other-projects__item" data-project="uchronieglitched">
+              <img src="assets/images/art/mcrrcmuchronieglitched.webp" alt="MCRRCM+ Uchronie Glitched" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Guillaume Hervy</div>
+                <div class="other-projects__name">MCRRCM+ Uchronie Glitched</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: ABERDEEN WALK -->
+    <div class="page" id="page-project-aberdeenwalk">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/zj9EZBK3KLM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>Aberdeen Walk</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Octobre 2023</div>
+          <div class="project-header__type">3D Point Cloud — Vidéo</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Déambulation dans les rues d'Aberdeen reconstituée en nuage de points 3D. Extraction des données spatiales par photogrammétrie, restitution en flux de particules animées.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">Point Cloud</span><span class="project-tag">Photogrammétrie</span><span class="project-tag">Vidéo</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>Scan photogrammétrique</li><li>Blender — nuages de points</li><li>Post-production vidéo</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="amsterdamwalk"><img src="assets/images/art/amsterdamwalk.webp" alt="Amsterdam Walk" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Amsterdam Walk</div></div></div>
+          <div class="other-projects__item" data-project="naissance"><img src="assets/images/art/naissance01.webp" alt="Naissance" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Naissance</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: NAISSANCE 02 -->
+    <div class="page" id="page-project-naissance02">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/ouJc5GbBAKc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>Naissance 02</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Août 2022</div>
+          <div class="project-header__type">3D Point Cloud — Performance VJ</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Deuxième expérimentation VJ inspirée du jeu vidéo NaissanceE de Limasse Five. Manipulation en live des point-clouds MCRRCM+ via TouchDesigner. Exploration performative improvisée.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">Point Cloud</span><span class="project-tag">Performance VJ</span><span class="project-tag">TouchDesigner</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>TouchDesigner — manipulation live</li><li>Point-clouds MCRRCM+</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="naissance"><img src="assets/images/art/naissance01.webp" alt="Naissance" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Naissance 01</div></div></div>
+          <div class="other-projects__item" data-project="aberdeenwalk"><img src="assets/images/art/aberdeenwalk.webp" alt="Aberdeen Walk" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Aberdeen Walk</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: SHOWREEL 2022 -->
+    <div class="page" id="page-project-showreel2022">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/GMCHrGKTD4c" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>Showreel 2022</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Juillet 2022</div>
+          <div class="project-header__type">VJ — Showreel</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Compilation des performances VJ de 2022. Montage des expérimentations visuelles live — point-clouds, environnements 3D MCRRCM+, manipulations temps réel.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">VJ</span><span class="project-tag">Showreel</span><span class="project-tag">Live</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>TouchDesigner</li><li>Blender — assets</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="couperin"><img src="assets/images/art/couperin.webp" alt="Couperin" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Couperin</div></div></div>
+          <div class="other-projects__item" data-project="naissance"><img src="assets/images/art/naissance01.webp" alt="Naissance" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Naissance</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: COUPERIN -->
+    <div class="page" id="page-project-couperin">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/FjOnxLVdJ-c" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>Couperin</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Mai 2022</div>
+          <div class="project-header__type">VJ — Création sonore et visuelle</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Performance VJ créée sur une composition de François Couperin. Les environnements 3D MCRRCM+ sont mis en mouvement en temps réel sur la structure musicale baroque.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">VJ</span><span class="project-tag">Musique baroque</span><span class="project-tag">Live</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>TouchDesigner — performance live</li><li>Assets MCRRCM+</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="showreel2022"><img src="assets/images/art/showreel2022.webp" alt="Showreel 2022" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Showreel 2022</div></div></div>
+          <div class="other-projects__item" data-project="glande-lacrymale"><img src="assets/images/GL_01_RE.webp" alt="Glande lacrymale" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Eden Hecht</div><div class="other-projects__name">Dans le sillage de ses larmes...</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: SYRIARUINS -->
+    <div class="page" id="page-project-syriaruins">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/cRy0_4d1XUE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>MCRRCM+ SyriaRuins</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Mai 2022</div>
+          <div class="project-header__type">3D Video</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Épisode MCRRCM+ — reconstruction 3D de ruines inspirées d'archives photographiques de sites détruits en Syrie. Espace mémoriel construit en données.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">3D Video</span><span class="project-tag">Blender</span><span class="project-tag">MCRRCM+</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>Blender — modélisation + rendu</li><li>Photogrammétrie</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="uchronie"><img src="assets/images/art/mcrrcmuchronie.webp" alt="MCRRCM+ Uchronie" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Uchronie</div></div></div>
+          <div class="other-projects__item" data-project="reves"><img src="assets/images/art/mcrrcmreves.webp" alt="MCRRCM+ Rêves" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Rêves</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: UCHRONIE PC -->
+    <div class="page" id="page-project-uchroniepc">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/FmDPjlJ5YSI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>MCRRCM+ Uchronie PC</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Mars 2022</div>
+          <div class="project-header__type">3D Point Cloud — Vidéo</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Version point-cloud de MCRRCM+ Uchronie. L'environnement 3D est décomposé en nuage de points — la matière se dissout, seule la structure spatiale subsiste.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">Point Cloud</span><span class="project-tag">3D Video</span><span class="project-tag">MCRRCM+</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>Blender — point-cloud</li><li>Post-production vidéo</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="uchronie"><img src="assets/images/art/mcrrcmuchronie.webp" alt="MCRRCM+ Uchronie" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Uchronie</div></div></div>
+          <div class="other-projects__item" data-project="cyberpunkpc"><img src="assets/images/art/mcrrcmcyberpunkpc.webp" alt="MCRRCM+ Cyberpunk PC" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Cyberpunk PC</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: CYBERPUNK PC -->
+    <div class="page" id="page-project-cyberpunkpc">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/SNT5oqAepns" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>MCRRCM+ Cyberpunk PC</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Mars 2022</div>
+          <div class="project-header__type">3D Point Cloud — Vidéo</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Déclinaison point-cloud de MCRRCM+ Cyberpunk. Architecture cyberpunk dissoute en nuage de données — la ville se fragmente en particules flottantes.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">Point Cloud</span><span class="project-tag">3D Video</span><span class="project-tag">MCRRCM+</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>Blender — point-cloud</li><li>Post-production vidéo</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="cyberpunk"><img src="assets/images/art/mcrrcmcyberpunk.webp" alt="MCRRCM+ Cyberpunk" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Cyberpunk</div></div></div>
+          <div class="other-projects__item" data-project="uchroniepc"><img src="assets/images/art/mcrrcmuchroniepc.webp" alt="MCRRCM+ Uchronie PC" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Uchronie PC</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: CYBERPUNK -->
+    <div class="page" id="page-project-cyberpunk">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/mFFZ3POq3Fo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>MCRRCM+ Cyberpunk</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Mars 2022</div>
+          <div class="project-header__type">3D Video</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Épisode MCRRCM+ — environnement urbain futuriste dystopique. Architecture dense, néons filtrés, atmosphère de science-fiction modélisée sous Blender.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">3D Video</span><span class="project-tag">Blender</span><span class="project-tag">MCRRCM+</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>Blender — modélisation + rendu Cycles</li><li>Post-production vidéo</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="dystopie"><img src="assets/images/art/mcrrcmdystopie.webp" alt="MCRRCM+ Dystopie" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Dystopie</div></div></div>
+          <div class="other-projects__item" data-project="uchronie"><img src="assets/images/art/mcrrcmuchronie.webp" alt="MCRRCM+ Uchronie" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Uchronie</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: CONTROL PANEL -->
+    <div class="page" id="page-project-controlpanel">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/iQmXNm15xuY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>MCRRCM+ Control Panel</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Janvier 2022</div>
+          <div class="project-header__type">3D Video</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Épisode MCRRCM+ — salle de contrôle abandonnée, interfaces et tableaux de bord défunts. Espace techno-industriel entre dystopie et archéologie du futur.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">3D Video</span><span class="project-tag">Blender</span><span class="project-tag">MCRRCM+</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>Blender — modélisation + rendu</li><li>Post-production vidéo</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="basement"><img src="assets/images/art/mcrrcmbasement.webp" alt="MCRRCM+ Basement" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Basement</div></div></div>
+          <div class="other-projects__item" data-project="mcrrcmmaps"><img src="assets/images/art/mcrrcmmaps.webp" alt="MCRRCM+ Maps" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Maps</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: BASEMENT -->
+    <div class="page" id="page-project-basement">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/wejKkmU5Yc4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>MCRRCM+ Basement</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Novembre 2021</div>
+          <div class="project-header__type">3D Video</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Épisode MCRRCM+ — sous-sol industriel, structure béton brut, lumière artificielle résiduelle. Espace souterrain post-industriel entre abandon et surveillance.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">3D Video</span><span class="project-tag">Blender</span><span class="project-tag">MCRRCM+</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>Blender — modélisation + rendu</li><li>Post-production vidéo</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="controlpanel"><img src="assets/images/art/mcrrcmcontrolpanel.webp" alt="MCRRCM+ Control Panel" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Control Panel</div></div></div>
+          <div class="other-projects__item" data-project="rotten"><img src="assets/images/art/mcrrcmrotten.webp" alt="MCRRCM+ Rotten" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Rotten</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: ROTTEN -->
+    <div class="page" id="page-project-rotten">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/Uw2N6fm_z9I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>MCRRCM+ Rotten</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Septembre 2021</div>
+          <div class="project-header__type">3D Video</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Épisode MCRRCM+ — matière organique en décomposition, textures de pourrissement et de putréfaction modélisées en 3D. La désintégration comme esthétique.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">3D Video</span><span class="project-tag">Blender</span><span class="project-tag">MCRRCM+</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>Blender — modélisation + shader procédural</li><li>Post-production vidéo</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="basement"><img src="assets/images/art/mcrrcmbasement.webp" alt="MCRRCM+ Basement" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Basement</div></div></div>
+          <div class="other-projects__item" data-project="uchronie"><img src="assets/images/art/mcrrcmuchronie.webp" alt="MCRRCM+ Uchronie" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Uchronie</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: DYSTOPIE -->
+    <div class="page" id="page-project-dystopie">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/MJ5hMGXtthU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>MCRRCM+ Dystopie</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Mars 2021</div>
+          <div class="project-header__type">3D Video</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Épisode MCRRCM+ — paysage urbain dystopique. Mégalopole en ruine, ciel saturé, architecture écrasante. Exploration d'un futur où la densité urbaine a dévoré l'espace humain.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">3D Video</span><span class="project-tag">Blender</span><span class="project-tag">MCRRCM+</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>Blender — modélisation + rendu Cycles</li><li>Post-production vidéo</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="utopie"><img src="assets/images/art/mcrrcmutopie.webp" alt="MCRRCM+ Utopie" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Utopie</div></div></div>
+          <div class="other-projects__item" data-project="cyberpunk"><img src="assets/images/art/mcrrcmcyberpunk.webp" alt="MCRRCM+ Cyberpunk" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Cyberpunk</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: UTOPIE -->
+    <div class="page" id="page-project-utopie">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/llIuAlB_7JI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>MCRRCM+ Utopie</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Novembre 2020</div>
+          <div class="project-header__type">3D Video</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Épisode MCRRCM+ — contrepoint de Dystopie. Espace lumineux, épuré, architecture idéale. L'utopie comme fantasme architectural modélisé — fragile et irréalisable.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">3D Video</span><span class="project-tag">Blender</span><span class="project-tag">MCRRCM+</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>Blender — modélisation + rendu Cycles</li><li>Post-production vidéo</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="dystopie"><img src="assets/images/art/mcrrcmdystopie.webp" alt="MCRRCM+ Dystopie" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Dystopie</div></div></div>
+          <div class="other-projects__item" data-project="reves"><img src="assets/images/art/mcrrcmreves.webp" alt="MCRRCM+ Rêves" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Rêves</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: MCRRCM+ MAPS -->
+    <div class="page" id="page-project-mcrrcmmaps">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/U8QOB7LTw_A" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>MCRRCM+ Maps</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Juillet 2023</div>
+          <div class="project-header__type">3D Video</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Cartographies 3D des mondes MCRRCM+ — vues aériennes et plans schématiques des environnements fictifs. La carte comme outil narratif et esthétique.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">3D Video</span><span class="project-tag">Cartographie</span><span class="project-tag">MCRRCM+</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>Blender — modélisation + rendu</li><li>Post-production vidéo</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="uchronie"><img src="assets/images/art/mcrrcmuchronie.webp" alt="MCRRCM+ Uchronie" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Uchronie</div></div></div>
+          <div class="other-projects__item" data-project="controlpanel"><img src="assets/images/art/mcrrcmcontrolpanel.webp" alt="MCRRCM+ Control Panel" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Control Panel</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: SIMULATION -->
+    <div class="page" id="page-project-simulation">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/7cuKqEIfeKs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>Simulation</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Septembre 2024</div>
+          <div class="project-header__type">Court-métrage 3D</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Court-métrage 3D — exploration narrative et visuelle de la notion de simulation. Environnements générés procéduralement, personnages absents, espace habité par le vide.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">Court-métrage</span><span class="project-tag">3D</span><span class="project-tag">Blender</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>Blender — modélisation + rendu Cycles</li><li>Montage vidéo</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="narcomotel"><img src="assets/images/art/uchronynarcomotel.webp" alt="Narcolepsy Motel" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Narcolepsy Motel</div></div></div>
+          <div class="other-projects__item" data-project="glande-lacrymale"><img src="assets/images/GL_01_RE.webp" alt="Glande lacrymale" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Eden Hecht</div><div class="other-projects__name">Dans le sillage de ses larmes...</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: SHOWREEL 2021 -->
+    <div class="page" id="page-project-showreel2021">
+      <div class="project-page">
+        <div class="project-images"><img src="assets/images/art/showreel2021.webp" alt="Showreel 2021" loading="lazy"></div>
+        <div class="project-header">
+          <h2>Showreel 2021</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">2021</div>
+          <div class="project-header__type">VJ — Showreel</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Compilation des performances VJ de 2021. Première année d'expérimentation intensive avec les assets MCRRCM+ en contexte live.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">VJ</span><span class="project-tag">Showreel</span><span class="project-tag">Live</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>TouchDesigner</li><li>Assets MCRRCM+</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="showreel2022"><img src="assets/images/art/showreel2022.webp" alt="Showreel 2022" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Showreel 2022</div></div></div>
+          <div class="other-projects__item" data-project="couperin"><img src="assets/images/art/couperin.webp" alt="Couperin" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Couperin</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: ENTROPIE -->
+    <div class="page" id="page-project-entropie">
+      <div class="project-page">
+        <div class="project-images"><img src="assets/images/art/entropie.webp" alt="Entropie" loading="lazy"></div>
+        <div class="project-header">
+          <h2>Entropie</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">2021</div>
+          <div class="project-header__type">3D Video</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Exploration visuelle de l'entropie — désordre croissant des systèmes, dissolution progressive des structures. Modélisation 3D de la dégradation comme phénomène esthétique.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">3D Video</span><span class="project-tag">Blender</span><span class="project-tag">Procédural</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>Blender — simulation + rendu</li><li>Post-production vidéo</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="rotten"><img src="assets/images/art/mcrrcmrotten.webp" alt="MCRRCM+ Rotten" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Rotten</div></div></div>
+          <div class="other-projects__item" data-project="uchronie"><img src="assets/images/art/mcrrcmuchronie.webp" alt="MCRRCM+ Uchronie" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Uchronie</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: PETRI GLITCHED -->
+    <div class="page" id="page-project-petriglitched">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/rGUfIjZvYo4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>Petri Glitched</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Janvier 2022</div>
+          <div class="project-header__type">Expérimental — Datamosh</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Version datamoshée de la série Petri. Les images de culture cellulaire sont corrompues par manipulation du fichier binaire — l'organique et le glitch se fondent en une même texture.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">Datamosh</span><span class="project-tag">Glitch Art</span><span class="project-tag">Expérimental</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>Datamoshing — corruption binaire</li><li>Source : série Petri</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="petri01"><img src="assets/images/art/petri01.webp" alt="Petri 01" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Petri 01</div></div></div>
+          <div class="other-projects__item" data-project="uchronieglitched"><img src="assets/images/art/mcrrcmuchronieglitched.webp" alt="MCRRCM+ Uchronie Glitched" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Uchronie Glitched</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: MICRO 03 -->
+    <div class="page" id="page-project-micro03">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/DoY57IuegYg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>MCRRCM+ Micro 03</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Décembre 2021</div>
+          <div class="project-header__type">Expérimental — noCG</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Troisième volet Micro de MCRRCM+ — expérimentation noCG. Images brutes sans post-production 3D, manipulation directe de la matière filmique et physique.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">noCG</span><span class="project-tag">Expérimental</span><span class="project-tag">MCRRCM+</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Contrainte</h3><p>Aucune image de synthèse — expérimentation avec matériaux physiques uniquement.</p></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="micro02"><img src="assets/images/art/mcrrcmmicro02.webp" alt="MCRRCM+ Micro 02" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Micro 02</div></div></div>
+          <div class="other-projects__item" data-project="micro01"><img src="assets/images/art/mcrrcmmicro01.webp" alt="MCRRCM+ Micro 01" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Micro 01</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: MICRO 02 -->
+    <div class="page" id="page-project-micro02">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/7Vc_CnYe5GI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>MCRRCM+ Micro 02</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Mai 2021</div>
+          <div class="project-header__type">Expérimental — noCG</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Deuxième volet Micro — expérimentation noCG sur des textures et matières physiques. Captation et manipulation sans 3D.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">noCG</span><span class="project-tag">Expérimental</span><span class="project-tag">MCRRCM+</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Contrainte</h3><p>Aucune image de synthèse — expérimentation avec matériaux physiques uniquement.</p></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="micro01"><img src="assets/images/art/mcrrcmmicro01.webp" alt="MCRRCM+ Micro 01" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Micro 01</div></div></div>
+          <div class="other-projects__item" data-project="micro03"><img src="assets/images/art/mcrrcmmicro03.webp" alt="MCRRCM+ Micro 03" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Micro 03</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: MICRO 01 -->
+    <div class="page" id="page-project-micro01">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/5VHEHNapWPQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>MCRRCM+ Micro 01</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Mai 2021</div>
+          <div class="project-header__type">Expérimental — noCG</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Premier volet Micro — amorce de la série noCG MCRRCM+. Expérimentation sur matériaux physiques bruts, sans intervention numérique 3D.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">noCG</span><span class="project-tag">Expérimental</span><span class="project-tag">MCRRCM+</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Contrainte</h3><p>Aucune image de synthèse — expérimentation avec matériaux physiques uniquement.</p></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="micro02"><img src="assets/images/art/mcrrcmmicro02.webp" alt="MCRRCM+ Micro 02" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Micro 02</div></div></div>
+          <div class="other-projects__item" data-project="petriglitched"><img src="assets/images/art/petriglitched.webp" alt="Petri Glitched" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Petri Glitched</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: PETRI 02 -->
+    <div class="page" id="page-project-petri02">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/jdI4UiRtdw8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>Pétri 02</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Février 2021</div>
+          <div class="project-header__type">Expérimental — noCG</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Deuxième volet de la série Pétri — cultures filmées en macro dans des boîtes de Pétri. L'organique comme matière vidéo brute, sans synthèse.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">noCG</span><span class="project-tag">Macro</span><span class="project-tag">Organique</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>Captation macro</li><li>Boîtes de Pétri</li><li>Post-production vidéo</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="petri01"><img src="assets/images/art/petri01.webp" alt="Petri 01" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Petri 01</div></div></div>
+          <div class="other-projects__item" data-project="petriglitched"><img src="assets/images/art/petriglitched.webp" alt="Petri Glitched" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Petri Glitched</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: PETRI 01 -->
+    <div class="page" id="page-project-petri01">
+      <div class="project-page">
+        <div class="project-video">
+          <iframe src="https://www.youtube.com/embed/1EzMH686_uw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="project-header">
+          <h2>Petri 01</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">Février 2021</div>
+          <div class="project-header__type">Expérimental — noCG</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Premier volet Pétri — cultures filmées en macro. L'image organique brute comme matière visuelle — la biologie comme esthétique sans traitement numérique.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">noCG</span><span class="project-tag">Macro</span><span class="project-tag">Organique</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>Captation macro</li><li>Boîtes de Pétri</li><li>Post-production vidéo</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="petri02"><img src="assets/images/art/petri02.webp" alt="Pétri 02" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Pétri 02</div></div></div>
+          <div class="other-projects__item" data-project="petriglitched"><img src="assets/images/art/petriglitched.webp" alt="Petri Glitched" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Petri Glitched</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: TROU DE VER -->
+    <div class="page" id="page-project-troudever">
+      <div class="project-page">
+        <div class="project-images"><img src="assets/images/art/troudever.webp" alt="Trou de ver" loading="lazy"></div>
+        <div class="project-header">
+          <h2>Trou de ver</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">2021</div>
+          <div class="project-header__type">Expérimental — 3D</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Expérimentation sur la notion de trou de ver — tunnel spatio-temporel modélisé en 3D. Exploration des distorsions de l'espace et du passage entre deux états.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">3D</span><span class="project-tag">Expérimental</span><span class="project-tag">Blender</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>Blender — modélisation + simulation</li><li>Post-production vidéo</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="vaisseau360"><img src="assets/images/art/vaisseau360.webp" alt="Vaisseau 360" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Vaisseau 360</div></div></div>
+          <div class="other-projects__item" data-project="uchronie"><img src="assets/images/art/mcrrcmuchronie.webp" alt="MCRRCM+ Uchronie" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">MCRRCM+ Uchronie</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: VAISSEAU 360 -->
+    <div class="page" id="page-project-vaisseau360">
+      <div class="project-page">
+        <div class="project-images"><img src="assets/images/art/vaisseau360.webp" alt="Vaisseau 360" loading="lazy"></div>
+        <div class="project-header">
+          <h2>Vaisseau 360</h2>
+          <div class="project-header__artist">Guillaume Hervy</div>
+          <div class="project-header__meta">2021</div>
+          <div class="project-header__type">Expérimental — 3D 360°</div>
+        </div>
+        <div class="project-body">
+          <div>
+            <div class="project-section"><h3>Description</h3><p>Vaisseau spatial modélisé et rendu en 360° — expérimentation avec le format vidéo sphérique immersif. Navigation dans un environnement spatial à la première personne.</p></div>
+            <div class="project-section"><h3>Type</h3><div><span class="project-tag">3D</span><span class="project-tag">360°</span><span class="project-tag">Immersif</span></div></div>
+          </div>
+          <div>
+            <div class="project-section"><h3>Outils</h3><ul><li>Blender — modélisation + rendu 360°</li><li>Post-production vidéo sphérique</li></ul></div>
+          </div>
+        </div>
+        <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
+          <div class="other-projects__item" data-project="troudever"><img src="assets/images/art/troudever.webp" alt="Trou de ver" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Trou de ver</div></div></div>
+          <div class="other-projects__item" data-project="observateur"><img src="assets/images/art/observateurtrailer.webp" alt="Observateur" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Observateur</div></div></div>
+        </div></div>
+      </div>
+    </div>
+
     <!-- PAGE: PROCESS -->
     <div class="page" id="page-process">
       <div class="page-content">
@@ -1143,6 +2619,50 @@
   </div><!-- /page-wrapper -->
 
   <script>
+    // ---- MASONRY ----
+    function runMasonry() {
+      const grid = document.querySelector('#page-portfolio .grid');
+      if (!grid) return;
+      const items = [...grid.querySelectorAll('.grid-item')];
+
+      if (window.innerWidth <= 900) {
+        grid.style.position = '';
+        grid.style.height = '';
+        items.forEach(el => {
+          el.style.position = '';
+          el.style.width = '';
+          el.style.left = '';
+          el.style.top = '';
+        });
+        return;
+      }
+
+      const gap = 20;
+      const colWidth = (grid.offsetWidth - gap) / 2;
+      const colH = [0, 0];
+
+      grid.style.position = 'relative';
+
+      items.filter(el => el.style.display !== 'none').forEach(el => {
+        const col = colH[0] <= colH[1] ? 0 : 1;
+        el.style.position = 'absolute';
+        el.style.width = colWidth + 'px';
+        el.style.left = col === 0 ? '0' : (colWidth + gap) + 'px';
+        el.style.top = colH[col] + 'px';
+        colH[col] += el.offsetHeight + gap;
+      });
+
+      grid.style.height = Math.max(...colH) + 'px';
+    }
+
+    window.addEventListener('load', runMasonry);
+
+    let _masonryTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(_masonryTimer);
+      _masonryTimer = setTimeout(runMasonry, 100);
+    });
+
     // ---- NAVIGATION SPA ----
     const pages = document.querySelectorAll('.page');
     const navLinks = document.querySelectorAll('[data-nav]');
@@ -1153,11 +2673,22 @@
       if (page) page.classList.add('active');
 
       // Update sidebar active state (only for main nav pages)
-      const mainPages = ['portfolio','process','about','faq'];
       document.querySelectorAll('.sidebar__nav a').forEach(a => {
         a.classList.toggle('active', a.dataset.nav === target ||
           (target.startsWith('project-') && a.dataset.nav === 'portfolio'));
       });
+
+      // Reset filter to "Tout" when returning to portfolio
+      if (target === 'portfolio') {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(b => b.classList.remove('active'));
+        const allBtn = document.querySelector('.filter-btn[data-filter="all"]');
+        if (allBtn) allBtn.classList.add('active');
+        document.querySelectorAll('#page-portfolio .grid-item').forEach(item => {
+          item.style.display = '';
+        });
+        runMasonry();
+      }
 
       window.scrollTo(0, 0);
     }
@@ -1173,6 +2704,24 @@
     document.querySelectorAll('[data-project]').forEach(item => {
       item.addEventListener('click', () => {
         navigate('project-' + item.dataset.project);
+      });
+    });
+
+    // ---- FILTER ----
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        document.querySelectorAll('#page-portfolio .grid-item').forEach(item => {
+          if (filter === 'all' || item.dataset.category === filter) {
+            item.style.display = '';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+        runMasonry();
       });
     });
 
