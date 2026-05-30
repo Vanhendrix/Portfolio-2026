@@ -185,14 +185,17 @@
 
     /* ---- PORTFOLIO GRID (homepage) ---- */
     .grid {
-      position: relative;
+      columns: 2;
+      column-gap: 20px;
     }
 
     .grid-item {
+      break-inside: avoid;
       position: relative;
       overflow: hidden;
       cursor: pointer;
       background: var(--gray-100);
+      margin-bottom: 20px;
     }
     .grid-item img {
       width: 100%;
@@ -681,7 +684,7 @@
       .page-wrapper { flex-direction: column; padding: 0; gap: 0; }
       .sidebar { display: none; }
       .mobile-header { display: flex; margin-bottom: 1.5rem; }
-      .grid { display: block; padding: 0 1.25rem; }
+      .grid { columns: 1; padding: 0 1.25rem; }
       .project-page { padding: 0 1.25rem; }
       .project-body { grid-template-columns: 1fr; }
       .project-result__grid { grid-template-columns: repeat(2, 1fr); }
@@ -695,14 +698,44 @@
       .other-projects__artist-name, .other-projects__name { transform: translateY(0); opacity: 1; }
     }
 
-    /* Project video embed */
+    /* Project video — lite embed facade */
     .project-video {
       position: relative;
       width: 100%;
       aspect-ratio: 16/9;
       margin-bottom: 3rem;
       background: var(--black);
+      cursor: pointer;
+      overflow: hidden;
     }
+    .project-video .yt-thumb {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.3s ease;
+    }
+    .project-video:hover .yt-thumb { opacity: 0.88; }
+    .project-video .yt-play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+    .project-video .yt-play svg {
+      width: 60px;
+      height: 42px;
+      filter: drop-shadow(0 2px 12px rgba(0,0,0,0.6));
+      transition: transform 0.2s ease;
+    }
+    .project-video:hover .yt-play svg { transform: scale(1.1); }
     .project-video iframe {
       position: absolute;
       inset: 0;
@@ -1330,8 +1363,9 @@
     <!-- PAGE: PROJET NAISSANCE -->
     <div class="page" id="page-project-naissance">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/baVYoAVGAPs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="baVYoAVGAPs">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/baVYoAVGAPs/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>Naissance 01</h2>
@@ -1394,8 +1428,9 @@
     <!-- PAGE: PROJET UCHRONIE -->
     <div class="page" id="page-project-uchronie">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/5S4bBGf9Z3A" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="5S4bBGf9Z3A">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/5S4bBGf9Z3A/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>MCRRCM+ Uchronie</h2>
@@ -1458,8 +1493,9 @@
     <!-- PAGE: PROJET L'OBSERVATEUR -->
     <div class="page" id="page-project-observateur">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/PsBsujWzGWY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="PsBsujWzGWY">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/PsBsujWzGWY/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>Observateur</h2>
@@ -1522,8 +1558,9 @@
     <!-- PAGE: PROJET AMSTERDAM WALK -->
     <div class="page" id="page-project-amsterdamwalk">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/cVg_grKauUg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="cVg_grKauUg">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/cVg_grKauUg/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>Amsterdam Walk</h2>
@@ -1582,8 +1619,9 @@
     <!-- PAGE: PROJET NARCOLEPSY MOTEL -->
     <div class="page" id="page-project-narcomotel">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/G_3XCNzPveg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="G_3XCNzPveg">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/G_3XCNzPveg/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>Narcolepsy Motel – Uchrony</h2>
@@ -1642,8 +1680,9 @@
     <!-- PAGE: PROJET MCRRCM+ RÊVES -->
     <div class="page" id="page-project-reves">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/zbKXpE9_iDw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="zbKXpE9_iDw">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/zbKXpE9_iDw/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>MCRRCM+ Rêves</h2>
@@ -1705,8 +1744,9 @@
     <!-- PAGE: PROJET UCHRONIE GLITCHED -->
     <div class="page" id="page-project-uchronieglitched">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/oVgMpI8R_Bs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="oVgMpI8R_Bs">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/oVgMpI8R_Bs/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>MCRRCM+ Uchronie Glitched</h2>
@@ -1768,8 +1808,9 @@
     <!-- PAGE: PROJET MCRRCM+ VIDEO GAME -->
     <div class="page" id="page-project-videogame">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/EmTEqjxQjfY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="EmTEqjxQjfY">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/EmTEqjxQjfY/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>MCRRCM+ Video Game</h2>
@@ -1831,8 +1872,9 @@
     <!-- PAGE: ABERDEEN WALK -->
     <div class="page" id="page-project-aberdeenwalk">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/zj9EZBK3KLM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="zj9EZBK3KLM">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/zj9EZBK3KLM/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>Aberdeen Walk</h2>
@@ -1859,8 +1901,9 @@
     <!-- PAGE: NAISSANCE 02 -->
     <div class="page" id="page-project-naissance02">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/ouJc5GbBAKc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="ouJc5GbBAKc">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/ouJc5GbBAKc/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>Naissance 02</h2>
@@ -1887,8 +1930,9 @@
     <!-- PAGE: SHOWREEL 2022 -->
     <div class="page" id="page-project-showreel2022">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/GMCHrGKTD4c" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="GMCHrGKTD4c">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/GMCHrGKTD4c/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>Showreel 2022</h2>
@@ -1915,8 +1959,9 @@
     <!-- PAGE: COUPERIN -->
     <div class="page" id="page-project-couperin">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/FjOnxLVdJ-c" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="FjOnxLVdJ-c">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/FjOnxLVdJ-c/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>Couperin</h2>
@@ -1943,8 +1988,9 @@
     <!-- PAGE: SYRIARUINS -->
     <div class="page" id="page-project-syriaruins">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/cRy0_4d1XUE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="cRy0_4d1XUE">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/cRy0_4d1XUE/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>MCRRCM+ SyriaRuins</h2>
@@ -1971,8 +2017,9 @@
     <!-- PAGE: UCHRONIE PC -->
     <div class="page" id="page-project-uchroniepc">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/FmDPjlJ5YSI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="FmDPjlJ5YSI">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/FmDPjlJ5YSI/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>MCRRCM+ Uchronie PC</h2>
@@ -1999,8 +2046,9 @@
     <!-- PAGE: CYBERPUNK PC -->
     <div class="page" id="page-project-cyberpunkpc">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/SNT5oqAepns" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="SNT5oqAepns">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/SNT5oqAepns/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>MCRRCM+ Cyberpunk PC</h2>
@@ -2027,8 +2075,9 @@
     <!-- PAGE: CYBERPUNK -->
     <div class="page" id="page-project-cyberpunk">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/mFFZ3POq3Fo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="mFFZ3POq3Fo">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/mFFZ3POq3Fo/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>MCRRCM+ Cyberpunk</h2>
@@ -2055,8 +2104,9 @@
     <!-- PAGE: CONTROL PANEL -->
     <div class="page" id="page-project-controlpanel">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/iQmXNm15xuY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="iQmXNm15xuY">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/iQmXNm15xuY/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>MCRRCM+ Control Panel</h2>
@@ -2083,8 +2133,9 @@
     <!-- PAGE: BASEMENT -->
     <div class="page" id="page-project-basement">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/wejKkmU5Yc4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="wejKkmU5Yc4">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/wejKkmU5Yc4/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>MCRRCM+ Basement</h2>
@@ -2111,8 +2162,9 @@
     <!-- PAGE: ROTTEN -->
     <div class="page" id="page-project-rotten">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/Uw2N6fm_z9I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="Uw2N6fm_z9I">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/Uw2N6fm_z9I/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>MCRRCM+ Rotten</h2>
@@ -2139,8 +2191,9 @@
     <!-- PAGE: DYSTOPIE -->
     <div class="page" id="page-project-dystopie">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/MJ5hMGXtthU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="MJ5hMGXtthU">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/MJ5hMGXtthU/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>MCRRCM+ Dystopie</h2>
@@ -2167,8 +2220,9 @@
     <!-- PAGE: UTOPIE -->
     <div class="page" id="page-project-utopie">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/llIuAlB_7JI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="llIuAlB_7JI">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/llIuAlB_7JI/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>MCRRCM+ Utopie</h2>
@@ -2195,8 +2249,9 @@
     <!-- PAGE: MCRRCM+ MAPS -->
     <div class="page" id="page-project-mcrrcmmaps">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/U8QOB7LTw_A" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="U8QOB7LTw_A">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/U8QOB7LTw_A/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>MCRRCM+ Maps</h2>
@@ -2223,8 +2278,9 @@
     <!-- PAGE: SIMULATION -->
     <div class="page" id="page-project-simulation">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/7cuKqEIfeKs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="7cuKqEIfeKs">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/7cuKqEIfeKs/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>Simulation</h2>
@@ -2303,8 +2359,9 @@
     <!-- PAGE: PETRI GLITCHED -->
     <div class="page" id="page-project-petriglitched">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/rGUfIjZvYo4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="rGUfIjZvYo4">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/rGUfIjZvYo4/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>Petri Glitched</h2>
@@ -2331,8 +2388,9 @@
     <!-- PAGE: MICRO 03 -->
     <div class="page" id="page-project-micro03">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/DoY57IuegYg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="DoY57IuegYg">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/DoY57IuegYg/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>MCRRCM+ Micro 03</h2>
@@ -2359,8 +2417,9 @@
     <!-- PAGE: MICRO 02 -->
     <div class="page" id="page-project-micro02">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/7Vc_CnYe5GI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="7Vc_CnYe5GI">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/7Vc_CnYe5GI/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>MCRRCM+ Micro 02</h2>
@@ -2387,8 +2446,9 @@
     <!-- PAGE: MICRO 01 -->
     <div class="page" id="page-project-micro01">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/5VHEHNapWPQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="5VHEHNapWPQ">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/5VHEHNapWPQ/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>MCRRCM+ Micro 01</h2>
@@ -2415,8 +2475,9 @@
     <!-- PAGE: PETRI 02 -->
     <div class="page" id="page-project-petri02">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/jdI4UiRtdw8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="jdI4UiRtdw8">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/jdI4UiRtdw8/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>Pétri 02</h2>
@@ -2443,8 +2504,9 @@
     <!-- PAGE: PETRI 01 -->
     <div class="page" id="page-project-petri01">
       <div class="project-page">
-        <div class="project-video">
-          <iframe src="https://www.youtube.com/embed/1EzMH686_uw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="project-video" data-yt-id="1EzMH686_uw">
+          <img class="yt-thumb" src="https://i.ytimg.com/vi/1EzMH686_uw/maxresdefault.jpg" loading="lazy" alt="">
+          <button class="yt-play" aria-label="Lire la vidéo"><svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <div class="project-header">
           <h2>Petri 01</h2>
@@ -2619,50 +2681,6 @@
   </div><!-- /page-wrapper -->
 
   <script>
-    // ---- MASONRY ----
-    function runMasonry() {
-      const grid = document.querySelector('#page-portfolio .grid');
-      if (!grid) return;
-      const items = [...grid.querySelectorAll('.grid-item')];
-
-      if (window.innerWidth <= 900) {
-        grid.style.position = '';
-        grid.style.height = '';
-        items.forEach(el => {
-          el.style.position = '';
-          el.style.width = '';
-          el.style.left = '';
-          el.style.top = '';
-        });
-        return;
-      }
-
-      const gap = 20;
-      const colWidth = (grid.offsetWidth - gap) / 2;
-      const colH = [0, 0];
-
-      grid.style.position = 'relative';
-
-      items.filter(el => el.style.display !== 'none').forEach(el => {
-        const col = colH[0] <= colH[1] ? 0 : 1;
-        el.style.position = 'absolute';
-        el.style.width = colWidth + 'px';
-        el.style.left = col === 0 ? '0' : (colWidth + gap) + 'px';
-        el.style.top = colH[col] + 'px';
-        colH[col] += el.offsetHeight + gap;
-      });
-
-      grid.style.height = Math.max(...colH) + 'px';
-    }
-
-    window.addEventListener('load', runMasonry);
-
-    let _masonryTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(_masonryTimer);
-      _masonryTimer = setTimeout(runMasonry, 100);
-    });
-
     // ---- NAVIGATION SPA ----
     const pages = document.querySelectorAll('.page');
     const navLinks = document.querySelectorAll('[data-nav]');
@@ -2672,11 +2690,23 @@
       const page = document.getElementById('page-' + target);
       if (page) page.classList.add('active');
 
-      // Update sidebar active state (only for main nav pages)
+      // Update sidebar active state
       document.querySelectorAll('.sidebar__nav a').forEach(a => {
         a.classList.toggle('active', a.dataset.nav === target ||
           (target.startsWith('project-') && a.dataset.nav === 'portfolio'));
       });
+
+      // Inject back button on project pages (once per page)
+      if (target.startsWith('project-')) {
+        const projectPage = page && page.querySelector('.project-page');
+        if (projectPage && !projectPage.querySelector('.project-back')) {
+          const btn = document.createElement('button');
+          btn.className = 'project-back';
+          btn.textContent = '← Portfolio';
+          btn.addEventListener('click', () => navigate('portfolio'));
+          projectPage.insertBefore(btn, projectPage.firstChild);
+        }
+      }
 
       // Reset filter to "Tout" when returning to portfolio
       if (target === 'portfolio') {
@@ -2687,7 +2717,6 @@
         document.querySelectorAll('#page-portfolio .grid-item').forEach(item => {
           item.style.display = '';
         });
-        runMasonry();
       }
 
       window.scrollTo(0, 0);
@@ -2715,13 +2744,16 @@
         btn.classList.add('active');
         const filter = btn.dataset.filter;
         document.querySelectorAll('#page-portfolio .grid-item').forEach(item => {
-          if (filter === 'all' || item.dataset.category === filter) {
-            item.style.display = '';
-          } else {
-            item.style.display = 'none';
-          }
+          item.style.display = (filter === 'all' || item.dataset.category === filter) ? '' : 'none';
         });
-        runMasonry();
+      });
+    });
+
+    // ---- LITE YT EMBED ----
+    document.querySelectorAll('.project-video[data-yt-id]').forEach(el => {
+      el.addEventListener('click', () => {
+        const id = el.dataset.ytId;
+        el.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" frameborder="0" allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
       });
     });
 
