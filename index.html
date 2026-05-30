@@ -184,10 +184,12 @@
     .page.active { display: block; }
 
     /* ---- PORTFOLIO GRID (homepage) ---- */
+    /* CSS grid = fallback visible immédiatement, masonry JS prend le relais après window.load */
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
+      position: relative;
     }
 
     .grid-item {
@@ -683,7 +685,7 @@
       .page-wrapper { flex-direction: column; padding: 0; gap: 0; }
       .sidebar { display: none; }
       .mobile-header { display: flex; margin-bottom: 1.5rem; }
-      .grid { grid-template-columns: 1fr; padding: 0 1.25rem; }
+      .grid { display: block; padding: 0 1.25rem; }
       .project-page { padding: 0 1.25rem; }
       .project-body { grid-template-columns: 1fr; }
       .project-result__grid { grid-template-columns: repeat(2, 1fr); }
@@ -2680,6 +2682,52 @@
   </div><!-- /page-wrapper -->
 
   <script>
+    // ---- MASONRY ----
+    function runMasonry() {
+      const grid = document.querySelector('#page-portfolio .grid');
+      if (!grid) return;
+      const items = [...grid.querySelectorAll('.grid-item')];
+
+      if (window.innerWidth <= 900) {
+        grid.style.display = '';
+        grid.style.position = '';
+        grid.style.height = '';
+        items.forEach(el => {
+          el.style.position = '';
+          el.style.width = '';
+          el.style.left = '';
+          el.style.top = '';
+        });
+        return;
+      }
+
+      const gap = 20;
+      // Switch from CSS grid to block so absolute children work
+      grid.style.display = 'block';
+      grid.style.position = 'relative';
+      const colWidth = (grid.offsetWidth - gap) / 2;
+      const colH = [0, 0];
+
+      items.filter(el => el.style.display !== 'none').forEach(el => {
+        const col = colH[0] <= colH[1] ? 0 : 1;
+        el.style.position = 'absolute';
+        el.style.width = colWidth + 'px';
+        el.style.left = col === 0 ? '0' : (colWidth + gap) + 'px';
+        el.style.top = colH[col] + 'px';
+        colH[col] += el.offsetHeight + gap;
+      });
+
+      grid.style.height = Math.max(...colH) + 'px';
+    }
+
+    window.addEventListener('load', runMasonry);
+
+    let _masonryTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(_masonryTimer);
+      _masonryTimer = setTimeout(runMasonry, 100);
+    });
+
     // ---- NAVIGATION SPA ----
     const pages = document.querySelectorAll('.page');
     const navLinks = document.querySelectorAll('[data-nav]');
@@ -2716,6 +2764,7 @@
         document.querySelectorAll('#page-portfolio .grid-item').forEach(item => {
           item.style.display = '';
         });
+        runMasonry();
       }
 
       window.scrollTo(0, 0);
@@ -2745,6 +2794,7 @@
         document.querySelectorAll('#page-portfolio .grid-item').forEach(item => {
           item.style.display = (filter === 'all' || item.dataset.category === filter) ? '' : 'none';
         });
+        runMasonry();
       });
     });
 
