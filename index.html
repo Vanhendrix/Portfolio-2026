@@ -456,6 +456,50 @@
       opacity: 1;
     }
 
+    /* Contact */
+    .contact-form {
+      display: flex; flex-direction: column; gap: 1.5rem;
+      max-width: 460px; margin: 0.5rem 0 3rem;
+    }
+    .form-row { display: flex; flex-direction: column; gap: 0.5rem; }
+    .form-row label {
+      font-family: var(--mono); font-size: 0.65rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-400);
+    }
+    .form-row input, .form-row textarea {
+      font-family: var(--font); font-size: 0.95rem; color: var(--black);
+      border: none; border-bottom: 1px solid var(--gray-200);
+      background: none; padding: 0.5rem 0; resize: vertical;
+      transition: border-color 0.3s ease;
+    }
+    .form-row input:focus, .form-row textarea:focus { outline: none; border-color: var(--black); }
+    .form-row textarea { min-height: 110px; }
+    .contact-submit {
+      align-self: flex-start; font-family: var(--mono);
+      font-size: 0.6rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 0.85rem 2rem;
+      background: var(--black); color: var(--white);
+      border: none; cursor: pointer; transition: background 0.3s ease;
+    }
+    .contact-submit:hover { background: var(--gray-600); }
+
+    .contact-divider {
+      display: flex; align-items: center; gap: 1rem;
+      margin: 0 0 2rem; color: var(--gray-400);
+      font-family: var(--mono); font-size: 0.65rem;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      max-width: 460px;
+    }
+    .contact-divider::before, .contact-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--gray-200);
+    }
+
+    .contact-booking h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .contact-booking p { font-size: 0.9rem; color: var(--gray-600); font-weight: 300; margin-bottom: 1.5rem; }
+
+    .contact-calendly { width: 100%; margin-top: 1.5rem; border: 1px solid var(--gray-200); }
+    .contact-calendly iframe { width: 100%; height: 700px; border: none; display: block; }
+
     /* Result final section */
     .project-result {
       margin-top: 3rem;
@@ -760,7 +804,7 @@
     <nav class="sidebar__nav">
       <a href="#" data-nav="portfolio" class="active">Portfolio</a>
       <a href="#" data-nav="about">À propos</a>
-      <a href="https://calendly.com/hervyguillaume22/premier-call" target="_blank" rel="noopener">Contact</a>
+      <a href="#" data-nav="contact">Contact</a>
       <div class="sidebar__socials">
       <a href="https://www.instagram.com/guillaumevhx/" target="_blank" rel="noopener" aria-label="Instagram">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
@@ -780,7 +824,7 @@
   <nav class="mobile-menu" id="mobileMenu">
     <a href="#" data-nav="portfolio" onclick="closeMob()">Portfolio</a>
     <a href="#" data-nav="about" onclick="closeMob()">À propos</a>
-    <a href="https://calendly.com/hervyguillaume22/premier-call" target="_blank" rel="noopener" onclick="closeMob()">Contact</a>
+    <a href="#" data-nav="contact" onclick="closeMob()">Contact</a>
   </nav>
 
   <!-- MAIN -->
@@ -796,10 +840,10 @@
       <div class="grid">
         <!-- Projets clients — du plus récent au plus ancien -->
         <div class="grid-item" data-project="glande-lacrymale" data-category="client">
-          <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de ses larmes le sol se creuse — Eden Hecht">
+          <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de mes larmes le sol se creuse — Eden Hecht">
           <div class="grid-item__info">
             <div class="grid-item__artist">Eden Hecht</div>
-            <div class="grid-item__title">Dans le sillage de ses larmes le sol se creuse</div>
+            <div class="grid-item__title">Dans le sillage de mes larmes le sol se creuse</div>
           </div>
         </div>
         <div class="grid-item" data-project="sans-titre" data-category="client">
@@ -1068,12 +1112,15 @@
           <img src="assets/images/GL_11_RE.webp" alt="Glande lacrymale — Vue 3" loading="lazy">
           <img src="assets/images/GL_04_RE.webp" alt="Glande lacrymale — Vue 4" loading="lazy">
           <img src="assets/images/GL_10_RE.webp" alt="Glande lacrymale — Vue 5" loading="lazy">
+          <img src="assets/images/Eden_Photos_RE_01_2.18.1.webp" alt="Dans le sillage de mes larmes le sol se creuse — pièce exposée, Espace Vanderborght" loading="lazy">
+          <img src="assets/images/Eden_Photos_RE_01_2.19.1.webp" alt="Dans le sillage de mes larmes le sol se creuse — pièce exposée, Espace Vanderborght" loading="lazy">
+          <img src="assets/images/Eden_Photos_RE_01_2.20.1.webp" alt="Dans le sillage de mes larmes le sol se creuse — pièce exposée, Espace Vanderborght" loading="lazy">
         </div>
 
         <div class="project-header">
-          <h2>Dans le sillage de ses larmes le sol se creuse</h2>
+          <h2>Dans le sillage de mes larmes le sol se creuse</h2>
           <div class="project-header__artist">Eden Hecht</div>
-          <div class="project-header__meta">2026 — En production</div>
+          <div class="project-header__meta">Juin 2026 — Exposition des diplômés du Master, Académie Royale des Beaux-Arts, Espace Vanderborght, Bruxelles</div>
           <div class="project-header__type">Prévisualisation 3D — Rendus et schémas techniques</div>
         </div>
 
@@ -1173,10 +1220,10 @@
           <span class="other-projects__label">Autres projets</span>
           <div class="other-projects__grid">
             <div class="other-projects__item" data-project="glande-lacrymale">
-              <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de ses larmes le sol se creuse" loading="lazy">
+              <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de mes larmes le sol se creuse" loading="lazy">
               <div class="other-projects__info">
                 <div class="other-projects__artist-name">Eden Hecht</div>
-                <div class="other-projects__name">Dans le sillage de ses larmes...</div>
+                <div class="other-projects__name">Dans le sillage de mes larmes...</div>
               </div>
             </div>
             <div class="other-projects__item" data-project="promis">
@@ -1255,10 +1302,10 @@
           <span class="other-projects__label">Autres projets</span>
           <div class="other-projects__grid">
             <div class="other-projects__item" data-project="glande-lacrymale">
-              <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de ses larmes le sol se creuse" loading="lazy">
+              <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de mes larmes le sol se creuse" loading="lazy">
               <div class="other-projects__info">
                 <div class="other-projects__artist-name">Eden Hecht</div>
-                <div class="other-projects__name">Dans le sillage de ses larmes...</div>
+                <div class="other-projects__name">Dans le sillage de mes larmes...</div>
               </div>
             </div>
             <div class="other-projects__item" data-project="sans-titre">
@@ -1333,10 +1380,10 @@
           <span class="other-projects__label">Autres projets</span>
           <div class="other-projects__grid">
             <div class="other-projects__item" data-project="glande-lacrymale">
-              <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de ses larmes le sol se creuse" loading="lazy">
+              <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de mes larmes le sol se creuse" loading="lazy">
               <div class="other-projects__info">
                 <div class="other-projects__artist-name">Eden Hecht</div>
-                <div class="other-projects__name">Dans le sillage de ses larmes...</div>
+                <div class="other-projects__name">Dans le sillage de mes larmes...</div>
               </div>
             </div>
             <div class="other-projects__item" data-project="sans-titre">
@@ -1412,10 +1459,10 @@
               </div>
             </div>
             <div class="other-projects__item" data-project="glande-lacrymale">
-              <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de ses larmes le sol se creuse" loading="lazy">
+              <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de mes larmes le sol se creuse" loading="lazy">
               <div class="other-projects__info">
                 <div class="other-projects__artist-name">Eden Hecht</div>
-                <div class="other-projects__name">Dans le sillage de ses larmes...</div>
+                <div class="other-projects__name">Dans le sillage de mes larmes...</div>
               </div>
             </div>
           </div>
@@ -1664,10 +1711,10 @@
               </div>
             </div>
             <div class="other-projects__item" data-project="glande-lacrymale">
-              <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de ses larmes" loading="lazy">
+              <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de mes larmes" loading="lazy">
               <div class="other-projects__info">
                 <div class="other-projects__artist-name">Eden Hecht</div>
-                <div class="other-projects__name">Dans le sillage de ses larmes...</div>
+                <div class="other-projects__name">Dans le sillage de mes larmes...</div>
               </div>
             </div>
           </div>
@@ -1978,7 +2025,7 @@
         </div>
         <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
           <div class="other-projects__item" data-project="showreel2022"><img src="assets/images/art/showreel2022.webp" alt="Showreel 2022" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Showreel 2022</div></div></div>
-          <div class="other-projects__item" data-project="glande-lacrymale"><img src="assets/images/GL_01_RE.webp" alt="Glande lacrymale" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Eden Hecht</div><div class="other-projects__name">Dans le sillage de ses larmes...</div></div></div>
+          <div class="other-projects__item" data-project="glande-lacrymale"><img src="assets/images/GL_01_RE.webp" alt="Glande lacrymale" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Eden Hecht</div><div class="other-projects__name">Dans le sillage de mes larmes...</div></div></div>
         </div></div>
       </div>
     </div>
@@ -2297,7 +2344,7 @@
         </div>
         <div class="other-projects"><span class="other-projects__label">Autres projets</span><div class="other-projects__grid">
           <div class="other-projects__item" data-project="narcomotel"><img src="assets/images/art/uchronynarcomotel.webp" alt="Narcolepsy Motel" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Guillaume Hervy</div><div class="other-projects__name">Narcolepsy Motel</div></div></div>
-          <div class="other-projects__item" data-project="glande-lacrymale"><img src="assets/images/GL_01_RE.webp" alt="Glande lacrymale" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Eden Hecht</div><div class="other-projects__name">Dans le sillage de ses larmes...</div></div></div>
+          <div class="other-projects__item" data-project="glande-lacrymale"><img src="assets/images/GL_01_RE.webp" alt="Glande lacrymale" loading="lazy"><div class="other-projects__info"><div class="other-projects__artist-name">Eden Hecht</div><div class="other-projects__name">Dans le sillage de mes larmes...</div></div></div>
         </div></div>
       </div>
     </div>
@@ -2594,6 +2641,40 @@
       </div>
     </div>
 
+    <!-- PAGE: CONTACT -->
+    <div class="page" id="page-contact">
+      <div class="page-content">
+        <span class="label">Contact</span>
+        <h2>Parlons de ton projet.</h2>
+        <p style="margin-bottom: 2.5rem;">Écris-moi via le formulaire, ou réserve directement un premier call si tu préfères en discuter de vive voix.</p>
+
+        <form class="contact-form" id="contactForm">
+          <div class="form-row">
+            <label for="cf-name">Nom</label>
+            <input type="text" id="cf-name" name="name" required autocomplete="name">
+          </div>
+          <div class="form-row">
+            <label for="cf-email">Email</label>
+            <input type="email" id="cf-email" name="email" required autocomplete="email">
+          </div>
+          <div class="form-row">
+            <label for="cf-message">Message</label>
+            <textarea id="cf-message" name="message" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="contact-submit">Envoyer</button>
+        </form>
+
+        <div class="contact-divider">ou</div>
+
+        <div class="contact-booking">
+          <h3>Réserver un premier call</h3>
+          <p>15 minutes pour poser le projet et voir si on avance ensemble.</p>
+          <button class="cta-btn" id="calendlyToggle" type="button" style="border:none; cursor:pointer;">Choisir un créneau →</button>
+          <div class="contact-calendly" id="calendlyEmbed"></div>
+        </div>
+      </div>
+    </div>
+
     <footer class="site-footer">Guillaume Hervy &copy; 2026</footer>
 
   </main>
@@ -2601,13 +2682,12 @@
   </div><!-- /page-wrapper -->
 
   <script>
-    // ---- MASONRY ----
-    function runMasonry() {
-      const grid = document.querySelector('#page-portfolio .grid');
+    // ---- MASONRY (générique, 2 colonnes en cascade désynchronisée) ----
+    function layoutMasonry(grid, itemSelector, gap, minItems) {
       if (!grid) return;
-      const items = [...grid.querySelectorAll('.grid-item')];
+      const items = [...grid.querySelectorAll(itemSelector)];
 
-      if (window.innerWidth <= 900) {
+      if (window.innerWidth <= 900 || items.length < (minItems || 2)) {
         grid.style.display = '';
         grid.style.position = '';
         grid.style.height = '';
@@ -2620,8 +2700,7 @@
         return;
       }
 
-      const gap = 20;
-      // Switch from CSS grid to block so absolute children work
+      // Switch from CSS grid/flex to block so absolute children work
       grid.style.display = 'block';
       grid.style.position = 'relative';
       const colWidth = (grid.offsetWidth - gap) / 2;
@@ -2639,12 +2718,31 @@
       grid.style.height = Math.max(...colH) + 'px';
     }
 
+    function runMasonry() {
+      layoutMasonry(document.querySelector('#page-portfolio .grid'), '.grid-item', 20, 1);
+    }
+
+    function runProjectMasonry(page) {
+      const grid = page && page.querySelector('.project-images');
+      if (!grid) return;
+      const relayout = () => layoutMasonry(grid, 'img', 20, 2);
+      relayout();
+      // Les <img loading="lazy"> pas encore décodées faussent offsetHeight : on recale au chargement
+      grid.querySelectorAll('img').forEach(img => {
+        if (!img.complete) img.addEventListener('load', relayout, { once: true });
+      });
+    }
+
     window.addEventListener('load', runMasonry);
 
     let _masonryTimer;
     window.addEventListener('resize', () => {
       clearTimeout(_masonryTimer);
-      _masonryTimer = setTimeout(runMasonry, 100);
+      _masonryTimer = setTimeout(() => {
+        runMasonry();
+        const activePage = document.querySelector('.page.active');
+        if (activePage) runProjectMasonry(activePage);
+      }, 100);
     });
 
     // ---- NAVIGATION SPA ----
@@ -2673,6 +2771,7 @@
           btn.addEventListener('click', () => navigate('portfolio'));
           projectPage.insertBefore(btn, projectPage.firstChild);
         }
+        runProjectMasonry(page);
       }
 
       // Reset filter to "Tout" when returning to portfolio
@@ -2725,6 +2824,30 @@
         el.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" frameborder="0" allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
       });
     });
+
+    // ---- CONTACT FORM (mailto) ----
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const name = document.getElementById('cf-name').value.trim();
+        const email = document.getElementById('cf-email').value.trim();
+        const message = document.getElementById('cf-message').value.trim();
+        const subject = encodeURIComponent(`Contact site — ${name}`);
+        const body = encodeURIComponent(`${message}\n\n—\n${name}\n${email}`);
+        window.location.href = `mailto:hervyguillaume22@gmail.com?subject=${subject}&body=${body}`;
+      });
+    }
+
+    // ---- CALENDLY LITE EMBED ----
+    const calendlyBtn = document.getElementById('calendlyToggle');
+    const calendlyEmbed = document.getElementById('calendlyEmbed');
+    if (calendlyBtn) {
+      calendlyBtn.addEventListener('click', () => {
+        calendlyEmbed.innerHTML = '<iframe src="https://calendly.com/hervyguillaume22/premier-call?embed_domain=guillaumehervy.fr&embed_type=Inline" loading="lazy"></iframe>';
+        calendlyBtn.style.display = 'none';
+      });
+    }
 
     // ---- MOBILE MENU ----
     const burger = document.getElementById('burger');
