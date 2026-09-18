@@ -383,6 +383,13 @@
       width: 100%;
       display: block;
     }
+    .project-video-hero {
+      margin-bottom: 20px;
+    }
+    .project-video-hero video {
+      width: 100%;
+      display: block;
+    }
 
     /* Other projects */
     .other-projects {
@@ -839,6 +846,13 @@
       </div>
       <div class="grid">
         <!-- Projets clients — du plus récent au plus ancien -->
+        <div class="grid-item" data-project="belooussovitch-sculpture" data-category="client">
+          <img src="assets/images/LeaBeloossovitch_SculptOrga_video-cover.webp" alt="Sculpture miniature organique — Léa Belooussovitch">
+          <div class="grid-item__info">
+            <div class="grid-item__artist">Léa Belooussovitch</div>
+            <div class="grid-item__title">Sculpture miniature organique</div>
+          </div>
+        </div>
         <div class="grid-item" data-project="glande-lacrymale" data-category="client">
           <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de mes larmes le sol se creuse — Eden Hecht">
           <div class="grid-item__info">
@@ -1260,6 +1274,77 @@
               <div class="other-projects__info">
                 <div class="other-projects__artist-name">Eden Hecht</div>
                 <div class="other-projects__name">Collapse</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: PROJET SCULPTURE BELOOUSSOVITCH -->
+    <div class="page" id="page-project-belooussovitch-sculpture">
+      <div class="project-page">
+        <div class="project-video-hero">
+          <video src="assets/video/LeaBeloossovitch_SculptOrga_render_preview_glass_02.mp4" autoplay muted loop playsinline poster="assets/images/LeaBeloossovitch_SculptOrga_video-cover.webp"></video>
+        </div>
+        <div class="project-images">
+          <img src="assets/images/LeaBeloossovitch_SculptOrga_render_gray_front.webp" alt="Sculpture miniature organique — Vue face" loading="lazy">
+          <img src="assets/images/LeaBeloossovitch_SculptOrga_render_gray_threequarters-front.webp" alt="Sculpture miniature organique — Vue 3/4 face" loading="lazy">
+          <img src="assets/images/LeaBeloossovitch_SculptOrga_render_gray_right.webp" alt="Sculpture miniature organique — Vue profil droit" loading="lazy">
+          <img src="assets/images/LeaBeloossovitch_SculptOrga_render_gray_back.webp" alt="Sculpture miniature organique — Vue dos" loading="lazy">
+          <img src="assets/images/LeaBeloossovitch_SculptOrga_render_gray_threequarters-back.webp" alt="Sculpture miniature organique — Vue 3/4 dos" loading="lazy">
+          <img src="assets/images/LeaBeloossovitch_SculptOrga_render_gray_top.webp" alt="Sculpture miniature organique — Vue dessus" loading="lazy">
+        </div>
+
+        <div class="project-header">
+          <h2>Sculpture miniature organique</h2>
+          <div class="project-header__artist">Léa Belooussovitch</div>
+          <div class="project-header__meta">2026 — Pièce d'édition destinée à l'impression 3D résine (LB Studio)</div>
+          <div class="project-header__type">Modélisation 3D — Fichier print-ready (STL)</div>
+        </div>
+
+        <div class="project-body">
+          <div>
+            <div class="project-section">
+              <h3>Description</h3>
+              <p>Modélisation 3D d'une sculpture miniature organique, à mi-chemin entre ventricule de cœur et amphore, destinée à l'impression 3D résine. Volume sculpté à partir de croquis et cotes précises de l'artiste, contraint dans un cube de 5x5x5cm, avec des parois fines pensées pour un rendu translucide une fois imprimé.</p>
+            </div>
+            <div class="project-section">
+              <h3>Type</h3>
+              <div>
+                <span class="project-tag">Modélisation 3D</span>
+                <span class="project-tag">Sculpt organique</span>
+                <span class="project-tag">Print-ready / STL</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="project-section">
+              <h3>Enjeux</h3>
+              <p>Traduire une forme dessinée à main levée en un volume 3D exact, respectant des cotes précises (4,8 x 2,85cm) et une épaisseur de paroi compatible avec l'impression résine translucide, tout en livrant un mesh parfaitement watertight pour l'impression.</p>
+            </div>
+            <div class="project-section">
+              <h3>Approche</h3>
+              <p>Sculpt et retopologie dans Blender pour construire la géométrie et fermer les ouvertures en conservant le galbe organique. Validations itératives avec l'artiste sur wireframe et rendus solid gris, puis vérifications techniques (normales, non-manifold, épaisseur) avant export du fichier STL final.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="other-projects">
+          <span class="other-projects__label">Autres projets</span>
+          <div class="other-projects__grid">
+            <div class="other-projects__item" data-project="conservatoire-saint-denis">
+              <img src="assets/images/Conservatoire_Lambi_v06_07.webp" alt="Conservatoire de Saint-Denis" loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Capucine Vandebrouck</div>
+                <div class="other-projects__name">Conservatoire de Saint-Denis</div>
+              </div>
+            </div>
+            <div class="other-projects__item" data-project="glande-lacrymale">
+              <img src="assets/images/GL_01_RE.webp" alt="Dans le sillage de mes larmes..." loading="lazy">
+              <div class="other-projects__info">
+                <div class="other-projects__artist-name">Eden Hecht</div>
+                <div class="other-projects__name">Dans le sillage de mes larmes...</div>
               </div>
             </div>
           </div>
